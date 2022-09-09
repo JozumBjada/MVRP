@@ -1,0 +1,3264 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 11.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[    142757,       3256]
+NotebookOptionsPosition[    137878,       3156]
+NotebookOutlinePosition[    138221,       3171]
+CellTagsIndexPosition[    138178,       3168]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["Preliminaries", "Chapter",
+ InitializationCell->True,
+ CellChangeTimes->{{3.7505785541873407`*^9, 
+  3.750578556640693*^9}},ExpressionUUID->"2e760c4b-c789-490f-9a05-\
+ba62998307b4"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"SetDirectory", "[", 
+  RowBox[{"NotebookDirectory", "[", "]"}], "]"}]], "Input",
+ InitializationCell->True,
+ CellChangeTimes->{{3.7561929210010076`*^9, 3.7561929289856586`*^9}},
+ CellLabel->"In[15]:=",ExpressionUUID->"91164277-e9e5-4403-aa52-e8f7b731ce28"],
+
+Cell[BoxData["\<\"C:\\\\Users\\\\Jaroslav \
+Kysela\\\\Dropbox\\\\stimulSPDC\"\>"], "Output",
+ CellChangeTimes->{
+  3.756192929977024*^9, 3.756193749972679*^9, {3.7609642448447075`*^9, 
+   3.7609642454161806`*^9}, 3.760964797674409*^9, {3.7609665114867916`*^9, 
+   3.760966511984458*^9}, {3.7609718099051886`*^9, 3.760971810464427*^9}, 
+   3.761028139780554*^9, 3.761029722114048*^9, 3.7610379611928144`*^9, 
+   3.761039824947462*^9},
+ CellLabel->"Out[15]=",ExpressionUUID->"fdd04d1c-ead2-4b8e-9f59-e3d71ae5eaed"]
+}, Open  ]],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", 
+   RowBox[{
+    RowBox[{"<<", "stimulSPDCpackageAbortB"}], ".", "wl"}], "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{"<<", "melvinMoreDOF2.wl"}]}]], "Input",
+ InitializationCell->True,
+ CellChangeTimes->{{3.756192464582694*^9, 3.756192472939313*^9}, {
+  3.7609642597022667`*^9, 3.7609642687949553`*^9}},
+ CellLabel->"In[16]:=",ExpressionUUID->"6435268a-2180-4865-a6aa-cdaed00f5998"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Routines", "Chapter",
+ CellChangeTimes->{{3.756199066465724*^9, 
+  3.7561990671040173`*^9}},ExpressionUUID->"03abc2fa-9da0-4bbb-b27d-\
+940ed2330a2b"],
+
+Cell[CellGroupData[{
+
+Cell["Visualize setup", "Subchapter",
+ InitializationCell->True,
+ CellChangeTimes->{{3.7513661771156287`*^9, 
+  3.751366182169956*^9}},ExpressionUUID->"c584def1-ff83-4fdc-ae2e-\
+b3ebfcd29b2f"],
+
+Cell[CellGroupData[{
+
+Cell["Prototypes", "Subsection",
+ CellChangeTimes->{{3.7561937002655807`*^9, 
+  3.7561937021794653`*^9}},ExpressionUUID->"1c9f4bee-8620-4065-ad1e-\
+6d32928fdf82"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"prototypes", "=", 
+   RowBox[{"<|", 
+    RowBox[{
+     RowBox[{"beamsplitter", "->", 
+      RowBox[{"{", 
+       RowBox[{
+       "\"\<path1\>\"", ",", "\"\<path2\>\"", ",", "\"\<reflang\>\""}], 
+       "}"}]}], ",", 
+     RowBox[{"phaseshift", "\[Rule]", 
+      RowBox[{"{", 
+       RowBox[{"\"\<path1\>\"", ",", "\"\<phase\>\""}], "}"}]}], ",", 
+     RowBox[{"spdcColl", "->", 
+      RowBox[{"{", 
+       RowBox[{
+       "\"\<order\>\"", ",", "\"\<path1\>\"", ",", "\"\<g\>\"", ",", 
+        "\"\<normalize\>\""}], "}"}]}], ",", 
+     RowBox[{"spdcNonColl", "->", 
+      RowBox[{"{", 
+       RowBox[{
+       "\"\<order\>\"", ",", "\"\<path1\>\"", ",", "\"\<path2\>\"", ",", 
+        "\"\<g\>\"", ",", "\"\<normalize\>\""}], "}"}]}]}], "|>"}]}], 
+  ";"}]], "Input",
+ InitializationCell->True,
+ CellChangeTimes->{{3.7513546284642525`*^9, 3.751354769226962*^9}, {
+  3.7513552763301754`*^9, 3.7513552779871483`*^9}, {3.7513553116245036`*^9, 
+  3.7513553227734747`*^9}, {3.751356604375617*^9, 3.7513566083046074`*^9}},
+ CellLabel->"In[17]:=",ExpressionUUID->"40c47483-c7de-4aba-a833-959f00de3429"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"headLabels", "=", 
+   RowBox[{"<|", 
+    RowBox[{
+     RowBox[{"beamsplitterOperOper", "\[Rule]", "\"\<beamsplitter\>\""}], ",", 
+     RowBox[{"phaseshiftOperOper", "\[Rule]", "\"\<phaseshift\>\""}], ",", 
+     RowBox[{"spdcCollOperOper", "\[Rule]", "\"\<spdcColl\>\""}], ",", 
+     RowBox[{"spdcNonCollOperOper", "\[Rule]", "\"\<spdcNonColl\>\""}]}], 
+    "|>"}]}], ";"}]], "Input",
+ InitializationCell->True,
+ CellChangeTimes->{{3.756191497358342*^9, 3.7561915651002502`*^9}, {
+  3.7561983241086345`*^9, 3.756198331859909*^9}, {3.7561983780973144`*^9, 
+  3.7561984132462997`*^9}},
+ CellLabel->"In[18]:=",ExpressionUUID->"306c95fd-770d-4e54-969c-b78975468466"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"getPrototype", "::", "usage"}], "=", 
+   "\"\<Basically parses the Function expression corresponding to a given \
+action. If phaseshift[#,1,phi]& is supplied to getPrototype, it returns \
+{phaseshift,1,None,\[LeftAssociation]'head'\[Rule]phaseshift,'phase'\[Rule]\
+phi\[RightAssociation]}\>\""}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"getPrototype", "[", "action_Function", "]"}], ":=", 
+  "\[IndentingNewLine]", 
+  RowBox[{"Module", "[", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{
+     "aux", ",", "head", ",", "path1", ",", "path2", ",", "pars", ",", 
+      "proto", ",", "path1pos", ",", "path2pos", ",", "parspos", ",", 
+      "parsnames", ",", "parsvalues"}], "}"}], ",", "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"aux", "=", 
+      RowBox[{"Hold", "[", "action", "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"head", "=", 
+      RowBox[{"aux", "[", 
+       RowBox[{"[", 
+        RowBox[{"1", ",", "1", ",", "0"}], "]"}], "]"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"proto", "=", 
+      RowBox[{"prototypes", "[", "head", "]"}]}], ";", "\[IndentingNewLine]", 
+     "\[IndentingNewLine]", 
+     RowBox[{"path1pos", "=", 
+      RowBox[{"FirstPosition", "[", 
+       RowBox[{"proto", ",", 
+        RowBox[{"\"\<path1\>\"", "|", "\"\<path\>\""}]}], "]"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"path1", "=", 
+      RowBox[{"aux", "[", 
+       RowBox[{"[", 
+        RowBox[{"1", ",", "1", ",", 
+         RowBox[{"1", "+", 
+          RowBox[{"First", "@", "path1pos"}]}]}], "]"}], "]"}]}], ";", 
+     "\[IndentingNewLine]", "\[IndentingNewLine]", 
+     RowBox[{"path2pos", "=", 
+      RowBox[{"FirstPosition", "[", 
+       RowBox[{"proto", ",", "\"\<path2\>\""}], "]"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"path2", "=", 
+      RowBox[{"If", "[", 
+       RowBox[{
+        RowBox[{"MissingQ", "[", "path2pos", "]"}], ",", 
+        "\[IndentingNewLine]", "None", ",", "\[IndentingNewLine]", 
+        RowBox[{"aux", "[", 
+         RowBox[{"[", 
+          RowBox[{"1", ",", "1", ",", 
+           RowBox[{"1", "+", 
+            RowBox[{"First", "@", "path2pos"}]}]}], "]"}], "]"}]}], "]"}]}], 
+     ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+     RowBox[{"parspos", "=", 
+      RowBox[{"Flatten", "@", 
+       RowBox[{"Position", "[", 
+        RowBox[{"proto", ",", 
+         RowBox[{"Except", "[", 
+          RowBox[{
+          "List", "|", "\"\<path\>\"", "|", "\"\<path1\>\"", "|", 
+           "\"\<path2\>\""}], "]"}], ",", "1"}], "]"}]}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"parsnames", "=", 
+      RowBox[{"proto", "[", 
+       RowBox[{"[", "parspos", "]"}], "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"parsvalues", "=", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"aux", "[", 
+         RowBox[{"[", 
+          RowBox[{"1", ",", "1", ",", 
+           RowBox[{"1", "+", "#"}]}], "]"}], "]"}], "&"}], "/@", 
+       "parspos"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"pars", "=", 
+      RowBox[{"AssociationThread", "[", 
+       RowBox[{"parsnames", "\[Rule]", "parsvalues"}], "]"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"pars", "=", 
+      RowBox[{"PrependTo", "[", 
+       RowBox[{"pars", ",", 
+        RowBox[{"\"\<head\>\"", "\[Rule]", "head"}]}], "]"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"{", 
+      RowBox[{"head", ",", "path1", ",", "path2", ",", "pars"}], "}"}]}]}], 
+   "\[IndentingNewLine]", "]"}]}]}], "Input",
+ InitializationCell->True,
+ CellChangeTimes->{{3.751178400873133*^9, 3.7511784170166783`*^9}, {
+   3.7511788933850317`*^9, 3.751178915030944*^9}, {3.751354446217353*^9, 
+   3.751354497881582*^9}, {3.7513545598503895`*^9, 3.7513546152328424`*^9}, {
+   3.751355303463416*^9, 3.751355498692198*^9}, {3.7513555574946966`*^9, 
+   3.751355780781584*^9}, {3.7513559210269904`*^9, 3.7513559745747623`*^9}, {
+   3.75135630954521*^9, 3.7513563384290137`*^9}, {3.751356374899026*^9, 
+   3.7513564677645035`*^9}, {3.7513564983742666`*^9, 3.751356524149227*^9}, 
+   3.751356581021242*^9, {3.7513568865990553`*^9, 3.75135690707587*^9}, {
+   3.7513575381370535`*^9, 3.7513575398170004`*^9}, {3.751973694102296*^9, 
+   3.751973773307285*^9}, {3.7519738108956885`*^9, 3.7519738229511905`*^9}, {
+   3.7561914549327774`*^9, 3.7561914916645985`*^9}, {3.756193119659852*^9, 
+   3.7561931204138174`*^9}, {3.7561931649567184`*^9, 3.756193165685772*^9}, {
+   3.756193306706708*^9, 3.7561933110660515`*^9}, {3.75619353432017*^9, 
+   3.7561935433380613`*^9}},
+ CellLabel->"In[19]:=",ExpressionUUID->"644e821a-6404-4931-8707-79e2a4cc6d29"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Add layers", "Subsection",
+ CellChangeTimes->{{3.7561937098928385`*^9, 
+  3.756193711895484*^9}},ExpressionUUID->"68c74f17-b189-4ef3-9e44-\
+2e66a941177c"],
+
+Cell[BoxData[{
+ RowBox[{"ClearAll", "[", "addLayer", "]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"addLayer", "::", "usage"}], "=", 
+   "\"\<The graph of the experimental setup is built layer by layer. To add a \
+new layer, addLayer is used.\n\
+addLayer[action_,vertices_,edges_,dependencies_,lastind_]: 'action' is a \
+prototype returned by getPrototype, 'vertices' is a list of vertices with \
+labels, 'edges' is a list of Rules specifying edges, 'dependencies' is an \
+association where keys are input path indices and values are indices of nodes \
+where those paths currently end, 'lastind' is the index of the element added \
+in the previous run of addLayer.\>\""}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"addLayer", "[", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{
+     "vertices_", ",", "edges_", ",", "dependencies_", ",", "lastind_"}], 
+     "}"}], ",", "action_"}], "]"}], ":=", 
+  RowBox[{"addLayer", "[", 
+   RowBox[{
+   "action", ",", "vertices", ",", "edges", ",", "dependencies", ",", 
+    "lastind"}], "]"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"addLayer", "[", 
+   RowBox[{
+   "action_", ",", "vertices_", ",", "edges_", ",", "dependencies_", ",", 
+    "lastind_"}], "]"}], ":=", 
+  RowBox[{"Module", "[", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{
+     "edge", ",", "label", ",", "head", ",", "headlabel", ",", "path1", ",", 
+      "path2", ",", "pars", ",", 
+      RowBox[{"newvert", "=", "vertices"}], ",", 
+      RowBox[{"newedges", "=", "edges"}], ",", 
+      RowBox[{"newdep", "=", "dependencies"}], ",", 
+      RowBox[{"newindex", "=", 
+       RowBox[{"lastind", "+", "1"}]}]}], "}"}], ",", "\[IndentingNewLine]", 
+    RowBox[{"(*", 
+     RowBox[{"new", " ", "action", " ", "to", " ", "add"}], "*)"}], 
+    "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"head", ",", "path1", ",", "path2", ",", "pars"}], "}"}], "=", 
+      "action"}], ";", "\[IndentingNewLine]", 
+     RowBox[{"headlabel", "=", 
+      RowBox[{"headLabels", "[", "head", "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"head", "=", 
+      RowBox[{"If", "[", 
+       RowBox[{
+        RowBox[{"MissingQ", "[", "headlabel", "]"}], ",", "head", ",", 
+        "headlabel"}], "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"edge", "=", 
+      RowBox[{
+       RowBox[{"newdep", "[", "path1", "]"}], "\[Rule]", "newindex"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"newdep", "[", "path1", "]"}], "=", "newindex"}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"AppendTo", "[", 
+      RowBox[{"newedges", ",", "edge"}], "]"}], ";", "\[IndentingNewLine]", 
+     "\[IndentingNewLine]", 
+     RowBox[{"If", "[", 
+      RowBox[{
+       RowBox[{"path2", "=!=", "None"}], ",", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"edge", "=", 
+         RowBox[{
+          RowBox[{"newdep", "[", "path2", "]"}], "\[Rule]", "newindex"}]}], 
+        ";", "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{"newdep", "[", "path2", "]"}], "=", "newindex"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"AppendTo", "[", 
+         RowBox[{"newedges", ",", "edge"}], "]"}], ";"}]}], 
+      "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
+     "\[IndentingNewLine]", 
+     RowBox[{"label", "=", 
+      RowBox[{"Grid", "[", 
+       RowBox[{
+        RowBox[{"KeyValueMap", "[", 
+         RowBox[{"List", ",", "pars"}], "]"}], ",", 
+        RowBox[{"Frame", "\[Rule]", "All"}]}], "]"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"AppendTo", "[", 
+      RowBox[{"newvert", ",", 
+       RowBox[{"Labeled", "[", 
+        RowBox[{
+         RowBox[{"Tooltip", "[", 
+          RowBox[{"newindex", ",", "label"}], "]"}], ",", "head"}], "]"}]}], 
+      "]"}], ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+     RowBox[{"{", 
+      RowBox[{"newvert", ",", "newedges", ",", "newdep", ",", "newindex"}], 
+      "}"}]}]}], "\[IndentingNewLine]", "]"}]}]}], "Input",
+ CellGroupingRules->{"GroupTogetherGrouping", 10000.},
+ InitializationCell->True,
+ InitializationGroup->True,
+ CellChangeTimes->{{3.7513610905054054`*^9, 3.751361092855729*^9}, 
+   3.751365738921073*^9, 3.751366088331896*^9, {3.7513664377701855`*^9, 
+   3.7513664410890317`*^9}, {3.751973853915087*^9, 3.7519739280692797`*^9}, {
+   3.7519746456310377`*^9, 3.7519746542498007`*^9}, {3.751974702180704*^9, 
+   3.75197475154949*^9}, {3.7519748883110557`*^9, 3.7519749006015515`*^9}, {
+   3.7519755833482914`*^9, 3.751975666944517*^9}, {3.751975704055473*^9, 
+   3.7519757261823497`*^9}, {3.7561923157132254`*^9, 3.7561923641377487`*^9}, 
+   3.7561938023007593`*^9, {3.7561939063335967`*^9, 3.756193906345566*^9}, {
+   3.756193973787272*^9, 3.756194003786029*^9}, {3.7561940469027424`*^9, 
+   3.7561941106762247`*^9}, {3.7561942256770105`*^9, 3.756194312599595*^9}, {
+   3.756198195234253*^9, 3.7561981969047527`*^9}, {3.75619824389212*^9, 
+   3.7561982483152914`*^9}, {3.756198432073958*^9, 3.756198440207211*^9}},
+ CellLabel->"In[21]:=",ExpressionUUID->"263ab28d-7c65-44e1-b92c-787a677b86d7"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Create graph", "Subsection",
+ CellChangeTimes->{{3.75619371725119*^9, 
+  3.75619371965374*^9}},ExpressionUUID->"93552476-5cb5-4467-bf5f-\
+fc1c76e484a2"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"createGraphFromPrototypes", "::", "usage"}], "=", 
+   "\"\<Create the graph of the experimental setup. Input paths are marked \
+with green color, output paths with red color. If coincidences are measured, \
+corresponding output nodes are marked with black color.\>\""}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"createGraphFromPrototypes", "[", 
+   RowBox[{"prototypes_", ",", 
+    RowBox[{"coincidenceList_List:", 
+     RowBox[{"{", "}"}]}]}], "]"}], ":=", 
+  RowBox[{"Module", "[", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{
+     "paths", ",", "inputpaths", ",", "outputpaths", ",", "dependencies", ",",
+       "lastind", ",", "structure", ",", "lastindicesfree", ",", 
+      "lastindicescoinc", ",", "lastindicesassoc", ",", 
+      RowBox[{"size", "=", ".2"}]}], "}"}], ",", "\[IndentingNewLine]", 
+    RowBox[{"(*", 
+     RowBox[{"input", " ", "paths"}], "*)"}], "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"paths", "=", 
+      RowBox[{"DeleteCases", "[", 
+       RowBox[{
+        RowBox[{"Union", "[", 
+         RowBox[{"Flatten", "@", 
+          RowBox[{"prototypes", "[", 
+           RowBox[{"[", 
+            RowBox[{"All", ",", 
+             RowBox[{"{", 
+              RowBox[{"2", ",", "3"}], "}"}]}], "]"}], "]"}]}], "]"}], ",", 
+        "None"}], "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"inputpaths", "=", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"Labeled", "[", 
+         RowBox[{
+          RowBox[{"Tooltip", "[", 
+           RowBox[{"#", ",", 
+            RowBox[{"Grid", "[", 
+             RowBox[{
+              RowBox[{"{", 
+               RowBox[{"{", 
+                RowBox[{"\"\<input\>\"", ",", "#"}], "}"}], "}"}], ",", 
+              RowBox[{"Frame", "\[Rule]", "All"}]}], "]"}]}], "]"}], ",", 
+          RowBox[{"\"\<Input path \>\"", "<>", 
+           RowBox[{"ToString", "[", "#", "]"}]}]}], "]"}], "&"}], "/@", 
+       "paths"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"outputpaths", "=", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"\"\<Output path \>\"", "<>", 
+           RowBox[{"ToString", "[", "#", "]"}]}], ",", "#", ",", "None", ",", 
+          RowBox[{"<|", 
+           RowBox[{"\"\<output\>\"", "\[Rule]", "#"}], "|>"}]}], "}"}], "&"}],
+        "/@", "paths"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"dependencies", "=", 
+      RowBox[{"AssociationThread", "[", 
+       RowBox[{"paths", "\[Rule]", "paths"}], "]"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"lastind", "=", 
+      RowBox[{"Max", "[", "paths", "]"}]}], ";", "\[IndentingNewLine]", 
+     "\[IndentingNewLine]", 
+     RowBox[{"(*", 
+      RowBox[{"create", " ", "the", " ", "graph", " ", "structure"}], "*)"}], 
+     "\[IndentingNewLine]", 
+     RowBox[{"structure", "=", 
+      RowBox[{"Fold", "[", 
+       RowBox[{"addLayer", ",", 
+        RowBox[{"{", 
+         RowBox[{"inputpaths", ",", 
+          RowBox[{"{", "}"}], ",", "dependencies", ",", "lastind"}], "}"}], 
+        ",", "prototypes"}], "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"structure", "=", 
+      RowBox[{"Fold", "[", 
+       RowBox[{"addLayer", ",", "structure", ",", "outputpaths"}], "]"}]}], 
+     ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+     RowBox[{"(*", 
+      RowBox[{"output", " ", "paths"}], "*)"}], "\[IndentingNewLine]", 
+     RowBox[{"lastindicesassoc", "=", 
+      RowBox[{"structure", "[", 
+       RowBox[{"[", 
+        RowBox[{"-", "2"}], "]"}], "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"lastindicescoinc", "=", 
+      RowBox[{"DeleteMissing", "@", 
+       RowBox[{"Values", "[", 
+        RowBox[{"lastindicesassoc", "[", 
+         RowBox[{"[", 
+          RowBox[{"Key", "/@", "coincidenceList"}], "]"}], "]"}], "]"}]}]}], 
+     ";", "\[IndentingNewLine]", 
+     RowBox[{"lastindicesfree", "=", 
+      RowBox[{"Complement", "[", 
+       RowBox[{
+        RowBox[{"Values", "[", "lastindicesassoc", "]"}], ",", 
+        "lastindicescoinc"}], "]"}]}], ";", "\[IndentingNewLine]", 
+     "\[IndentingNewLine]", 
+     RowBox[{"(*", 
+      RowBox[{
+      "create", " ", "visual", " ", "representation", " ", "of", " ", "the", 
+       " ", "graph"}], "*)"}], "\[IndentingNewLine]", 
+     RowBox[{"Graph", "[", 
+      RowBox[{
+       RowBox[{"Sequence", "@@", 
+        RowBox[{"structure", "[", 
+         RowBox[{"[", 
+          RowBox[{";;", "2"}], "]"}], "]"}]}], ",", "\[IndentingNewLine]", 
+       RowBox[{"GraphLayout", "\[Rule]", 
+        RowBox[{"{", 
+         RowBox[{"\"\<LayeredDigraphEmbedding\>\"", ",", " ", 
+          RowBox[{"\"\<Orientation\>\"", "\[Rule]", "Left"}]}], "}"}]}], ",", 
+       "\[IndentingNewLine]", 
+       RowBox[{"ImageSize", "\[Rule]", "Large"}], ",", "\[IndentingNewLine]", 
+       RowBox[{"VertexStyle", "\[Rule]", 
+        RowBox[{"Join", "[", 
+         RowBox[{
+          RowBox[{"Thread", "[", 
+           RowBox[{"paths", "\[Rule]", "Green"}], "]"}], ",", 
+          RowBox[{"Thread", "[", 
+           RowBox[{"lastindicesfree", "\[Rule]", "Red"}], "]"}], ",", 
+          RowBox[{"Thread", "[", 
+           RowBox[{"lastindicescoinc", "\[Rule]", "Black"}], "]"}]}], "]"}]}],
+        ",", "\[IndentingNewLine]", 
+       RowBox[{"VertexSize", "\[Rule]", 
+        RowBox[{"Join", "[", 
+         RowBox[{
+          RowBox[{"Thread", "[", 
+           RowBox[{"paths", "\[Rule]", "size"}], "]"}], ",", 
+          RowBox[{"Thread", "[", 
+           RowBox[{"lastindicesfree", "\[Rule]", "size"}], "]"}], ",", 
+          RowBox[{"Thread", "[", 
+           RowBox[{"lastindicescoinc", "\[Rule]", "size"}], "]"}]}], 
+         "]"}]}]}], "\[IndentingNewLine]", "]"}]}]}], "\[IndentingNewLine]", 
+   "]"}]}]}], "Input",
+ InitializationCell->True,
+ CellChangeTimes->CompressedData["
+1:eJwlyU0og3EAx/E1dnAiakkRIZsDjbyVxkzMMPWMxBozVjzethEmwmFaopRc
+HEyiViTZTLHysliSZfJaG0IhYuJE5Pn9Hb59Dt8YdTulYbNYrHgmeNW6II3/
+eBalRmlkcLhGoYDupCclZC/z6+GeIY2Ga744HWyZadNDZYHPANVbil7o1SeP
+wRplGZFbyFtMYEz/tROXKN4Ej7G154rI9U6b4Yjk/V9/iQWmNVQ4oMPgcsLy
+U3oXrlvfDmCfeOgQBv+0ncEOvuoCCjXia+gMmPJDe+NoEJ9xdrM0AvqpmSgY
+IbggNulGeVC9MpkI3d4qAXRIazNg6GunEPZ/3+bCE+ugDOaqTFq42k/tQ9t4
+NfHl9fIIhhdleKCFeyNKxHd+58FstlwGp2eHKDg2pa+EKd2+KvhpP66DOa7z
+enhultDw7HGnGZYLjEbq81mkXbgzQVXWxgTs47jM8PG+xAJjtmkblKeWumG7
+y3gJv760IXJGT+RqGFQaOOEw4cNMlMypk2B0FisT9m5JhLBrILaY/HwbDaXz
+O8RAse4Beh+sxD+okEG2
+  "],
+ CellLabel->"In[25]:=",ExpressionUUID->"ea5ee553-a5ec-42c3-a2a4-5a97ff1b27e3"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"visualizeSetup", "[", 
+   RowBox[{"setup_", ",", 
+    RowBox[{"coincidenceList_List:", 
+     RowBox[{"{", "}"}]}]}], "]"}], ":=", 
+  RowBox[{"Module", "[", 
+   RowBox[{
+    RowBox[{"{", "}"}], ",", "\[IndentingNewLine]", 
+    RowBox[{"createGraphFromPrototypes", "[", 
+     RowBox[{
+      RowBox[{"getPrototype", "/@", "setup"}], ",", "coincidenceList"}], 
+     "]"}]}], "\[IndentingNewLine]", "]"}]}]], "Input",
+ InitializationCell->True,
+ CellChangeTimes->{{3.7513662853656406`*^9, 3.7513663021968718`*^9}, {
+  3.751366392642203*^9, 3.7513664151014977`*^9}, {3.7513667101665554`*^9, 
+  3.7513667126010094`*^9}, {3.751974059013089*^9, 3.751974096535099*^9}},
+ CellLabel->"In[27]:=",ExpressionUUID->"2de66ade-c08b-4605-8830-9f268b41a63f"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Tests", "Subsection",
+ CellChangeTimes->{{3.7561936882048273`*^9, 
+  3.7561936902353983`*^9}},ExpressionUUID->"48e49d04-e926-4f4d-a65d-\
+c045a45776f3"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"ss", "=", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"spdcNonColl", "[", 
+       RowBox[{"#1", ",", "2", ",", "2", ",", "3", ",", "g", ",", "False"}], 
+       "]"}], "&"}], ",", 
+     RowBox[{
+      RowBox[{"phaseshift", "[", 
+       RowBox[{"#1", ",", "1", ",", 
+        FractionBox["\[Pi]", "3"]}], "]"}], "&"}], ",", 
+     RowBox[{
+      RowBox[{"spdcColl", "[", 
+       RowBox[{"#1", ",", "2", ",", "1", ",", "g", ",", "False"}], "]"}], 
+      "&"}], ",", 
+     RowBox[{
+      RowBox[{"phaseshift", "[", 
+       RowBox[{"#1", ",", "1", ",", "\[Pi]"}], "]"}], "&"}], ",", 
+     RowBox[{
+      RowBox[{"phaseshift", "[", 
+       RowBox[{"#1", ",", "2", ",", 
+        FractionBox["\[Pi]", "3"]}], "]"}], "&"}], ",", 
+     RowBox[{
+      RowBox[{"phaseshift", "[", 
+       RowBox[{"#1", ",", "1", ",", 
+        FractionBox["\[Pi]", "2"]}], "]"}], "&"}], ",", 
+     RowBox[{
+      RowBox[{"phaseshift", "[", 
+       RowBox[{"#1", ",", "3", ",", 
+        FractionBox["\[Pi]", "2"]}], "]"}], "&"}], ",", 
+     RowBox[{
+      RowBox[{"spdcNonColl", "[", 
+       RowBox[{"#1", ",", "2", ",", "1", ",", "2", ",", "g", ",", "False"}], 
+       "]"}], "&"}], ",", 
+     RowBox[{
+      RowBox[{"phaseshift", "[", 
+       RowBox[{"#1", ",", "2", ",", "\[Pi]"}], "]"}], "&"}], ",", 
+     RowBox[{
+      RowBox[{"phaseshift", "[", 
+       RowBox[{"#1", ",", "1", ",", 
+        FractionBox[
+         RowBox[{"2", " ", "\[Pi]"}], "3"]}], "]"}], "&"}]}], "}"}]}], 
+  ";"}]], "Input",
+ CellChangeTimes->{{3.7511783759227505`*^9, 3.7511783799437885`*^9}},
+ CellLabel->"In[62]:=",ExpressionUUID->"8089cbee-ec61-42b5-b8c1-4f7f4f90fa61"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"visualizeSetup", "[", "ss", "]"}]], "Input",
+ CellChangeTimes->{{3.751366492656632*^9, 3.751366495312272*^9}, 
+   3.751366716038248*^9, 3.7513669851196156`*^9, 3.751367480910013*^9},
+ CellLabel->"In[63]:=",ExpressionUUID->"7abb94e2-a3de-41b6-a74a-a7662ba34e33"],
+
+Cell[BoxData[
+ GraphicsBox[
+  NamespaceBox["NetworkGraphics",
+   DynamicModuleBox[{Typeset`graph = HoldComplete[
+     Graph[{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 
+      16}, {{{2, 4}, {3, 4}, {1, 5}, {5, 6}, {6, 7}, {4, 8}, {7, 9}, {4, 
+       10}, {9, 11}, {8, 11}, {11, 12}, {11, 13}, {13, 14}, {12, 15}, {10, 
+       16}}, Null}, {
+      GraphLayout -> {"LayeredDigraphEmbedding", "Orientation" -> Left}, 
+       ImageSize -> Large, 
+       Properties -> {
+        6 -> {Tooltip -> 
+           Grid[{{"head", $CellContext`spdcColl}, {"order", 2}, {
+              "g", $CellContext`g}, {"normalize", False}}, Frame -> All]}, 
+         1 -> {Tooltip -> Grid[{{"input", 1}}, Frame -> All]}, 
+         2 -> {Tooltip -> Grid[{{"input", 2}}, Frame -> All]}, 
+         10 -> {Tooltip -> 
+           Grid[{{"head", $CellContext`phaseshift}, {
+              "phase", Rational[1, 2] Pi}}, Frame -> All]}, 
+         12 -> {Tooltip -> 
+           Grid[{{"head", $CellContext`phaseshift}, {"phase", Pi}}, Frame -> 
+             All]}, 5 -> {
+          Tooltip -> Grid[{{"head", $CellContext`phaseshift}, {
+              "phase", Rational[1, 3] Pi}}, Frame -> All]}, 
+         14 -> {Tooltip -> Grid[{{"output", 1}}, Frame -> All]}, 
+         8 -> {Tooltip -> 
+           Grid[{{"head", $CellContext`phaseshift}, {
+              "phase", Rational[1, 3] Pi}}, Frame -> All]}, 
+         11 -> {Tooltip -> 
+           Grid[{{"head", $CellContext`spdcNonColl}, {"order", 2}, {
+              "g", $CellContext`g}, {"normalize", False}}, Frame -> All]}, 
+         3 -> {Tooltip -> Grid[{{"input", 3}}, Frame -> All]}, 
+         13 -> {Tooltip -> 
+           Grid[{{"head", $CellContext`phaseshift}, {
+              "phase", Rational[2, 3] Pi}}, Frame -> All]}, 
+         4 -> {Tooltip -> 
+           Grid[{{"head", $CellContext`spdcNonColl}, {"order", 2}, {
+              "g", $CellContext`g}, {"normalize", False}}, Frame -> All]}, 
+         9 -> {Tooltip -> 
+           Grid[{{"head", $CellContext`phaseshift}, {
+              "phase", Rational[1, 2] Pi}}, Frame -> All]}, 
+         7 -> {Tooltip -> 
+           Grid[{{"head", $CellContext`phaseshift}, {"phase", Pi}}, Frame -> 
+             All]}, 16 -> {Tooltip -> Grid[{{"output", 3}}, Frame -> All]}, 
+         15 -> {Tooltip -> Grid[{{"output", 2}}, Frame -> All]}}, 
+       VertexLabels -> {
+        6 -> $CellContext`spdcColl, 3 -> "Input path 3", 
+         11 -> $CellContext`spdcNonColl, 5 -> $CellContext`phaseshift, 
+         8 -> $CellContext`phaseshift, 7 -> $CellContext`phaseshift, 14 -> 
+         "Output path 1", 10 -> $CellContext`phaseshift, 
+         9 -> $CellContext`phaseshift, 4 -> $CellContext`spdcNonColl, 16 -> 
+         "Output path 3", 12 -> $CellContext`phaseshift, 
+         13 -> $CellContext`phaseshift, 2 -> "Input path 2", 15 -> 
+         "Output path 2", 1 -> "Input path 1"}, 
+       VertexSize -> {
+        15 -> 0.2, 3 -> 0.2, 14 -> 0.2, 16 -> 0.2, 2 -> 0.2, 1 -> 0.2}, 
+       VertexStyle -> {
+        15 -> RGBColor[1, 0, 0], 1 -> RGBColor[0, 1, 0], 2 -> 
+         RGBColor[0, 1, 0], 3 -> RGBColor[0, 1, 0], 16 -> RGBColor[1, 0, 0], 
+         14 -> RGBColor[1, 0, 0]}}]]}, 
+    TagBox[GraphicsGroupBox[{
+       {Hue[0.6, 0.7, 0.5], Opacity[0.7], Arrowheads[Medium], 
+        ArrowBox[{{-6.999999999999997, 
+         1.875642792038249*^-7}, {-5.999999999999998, 
+         1.6076938217470707`*^-7}}, 0.05338164238701065], 
+        ArrowBox[{{-5.000000080384689, -2.999999866025514}, \
+{-4.000000053589793, -1.9999998928204112`}}, 0.05338164238701065], 
+        ArrowBox[{{-5.000000053589792, -1.9999998660255143`}, \
+{-4.000000053589793, -1.9999998928204112`}}, 0.05338164238701065], 
+        ArrowBox[{{-4.000000053589793, -1.9999998928204112`}, \
+{-3.000000026794896, -0.9999999196153085}}, 0.05338164238701065], 
+        ArrowBox[{{-4.000000053589793, -1.9999998928204112`}, \
+{-3.000000053589793, -1.9999999196153082`}}, 0.05338164238701065], 
+        ArrowBox[{{-5.999999999999998, 
+         1.6076938217470707`*^-7}, {-4.999999999999998, 
+         1.339744851455892*^-7}}, 0.05338164238701065], 
+        ArrowBox[{{-4.999999999999998, 
+         1.339744851455892*^-7}, {-3.9999999999999987`, 
+         1.0717958811647137`*^-7}}, 0.05338164238701065], 
+        ArrowBox[{{-3.9999999999999987`, 
+         1.0717958811647137`*^-7}, {-2.999999999999999, 
+         8.038469108735353*^-8}}, 0.05338164238701065], 
+        ArrowBox[{{-3.000000026794896, -0.9999999196153085}, \
+{-2.0000000267948965`, -0.9999999464102056}}, 0.05338164238701065], 
+        ArrowBox[{{-2.999999999999999, 
+         8.038469108735353*^-8}, {-2.0000000267948965`, -0.9999999464102056}},
+          0.05338164238701065], 
+        ArrowBox[{{-3.000000053589793, -1.9999999196153082`}, \
+{-2.0000000535897935`, -1.9999999464102052`}}, 0.05338164238701065], 
+        ArrowBox[{{-2.0000000267948965`, -0.9999999464102056}, \
+{-1.0000000267948967`, -0.9999999732051026}}, 0.05338164238701065], 
+        ArrowBox[{{-2.0000000267948965`, -0.9999999464102056}, \
+{-1.0000000535897937`, -1.9999999732051024`}}, 0.05338164238701065], 
+        ArrowBox[{{-1.0000000267948967`, -0.9999999732051026}, \
+{-2.6794897029117842`*^-8, -0.9999999999999997}}, 0.05338164238701065], 
+        ArrowBox[{{-1.0000000535897937`, -1.9999999732051024`}, \
+{-5.3589794058235685`*^-8, -1.9999999999999993`}}, 0.05338164238701065]}, 
+       {Hue[0.6, 0.2, 0.8], EdgeForm[{GrayLevel[0], Opacity[0.7]}], {
+         TagBox[
+          TooltipBox[
+           {RGBColor[0, 1, 0], 
+            DiskBox[{-6.999999999999997, 1.875642792038249*^-7}, 
+             0.09999999999999995]},
+           TagBox[
+            
+            GridBox[{{"\"input\"", "1"}}, AutoDelete -> False, 
+             GridBoxFrame -> {"Columns" -> {{True}}, "Rows" -> {{True}}}, 
+             GridBoxItemSize -> {
+              "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}], "Grid"]],
+          Annotation[#, 
+           Grid[{{"input", 1}}, Frame -> All], "Tooltip"]& ], 
+         InsetBox["\<\"Input path 1\"\>", 
+          Offset[{2, 2}, {-6.899999999999998, 0.10000018756427916}], 
+          ImageScaled[{0, 0}],
+          BaseStyle->"Graphics"]}, {
+         TagBox[
+          TooltipBox[
+           {RGBColor[0, 1, 0], 
+            DiskBox[{-5.000000080384689, -2.999999866025514}, 
+             0.09999999999999995]},
+           TagBox[
+            
+            GridBox[{{"\"input\"", "2"}}, AutoDelete -> False, 
+             GridBoxFrame -> {"Columns" -> {{True}}, "Rows" -> {{True}}}, 
+             GridBoxItemSize -> {
+              "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}], "Grid"]],
+          Annotation[#, 
+           Grid[{{"input", 2}}, Frame -> All], "Tooltip"]& ], 
+         InsetBox["\<\"Input path 2\"\>", 
+          Offset[{2, 2}, {-4.9000000803846895, -2.8999998660255137}], 
+          ImageScaled[{0, 0}],
+          BaseStyle->"Graphics"]}, {
+         TagBox[
+          TooltipBox[
+           {RGBColor[0, 1, 0], 
+            DiskBox[{-5.000000053589792, -1.9999998660255143}, 
+             0.09999999999999995]},
+           TagBox[
+            
+            GridBox[{{"\"input\"", "3"}}, AutoDelete -> False, 
+             GridBoxFrame -> {"Columns" -> {{True}}, "Rows" -> {{True}}}, 
+             GridBoxItemSize -> {
+              "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}], "Grid"]],
+          Annotation[#, 
+           Grid[{{"input", 3}}, Frame -> All], "Tooltip"]& ], 
+         InsetBox["\<\"Input path 3\"\>", 
+          Offset[{2, 2}, {-4.9000000535897925, -1.8999998660255144}], 
+          ImageScaled[{0, 0}],
+          BaseStyle->"Graphics"]}, {
+         TagBox[
+          
+          TooltipBox[
+           DiskBox[{-4.000000053589793, -1.9999998928204112}, 
+            0.05338164238701065],
+           TagBox[
+            
+            GridBox[{{"\"head\"", "spdcNonColl"}, {"\"order\"", "2"}, {
+              "\"g\"", "g"}, {"\"normalize\"", "False"}}, AutoDelete -> False,
+              GridBoxFrame -> {"Columns" -> {{True}}, "Rows" -> {{True}}}, 
+             GridBoxItemSize -> {
+              "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}], "Grid"]],
+          Annotation[#, 
+           
+           Grid[{{"head", $CellContext`spdcNonColl}, {"order", 2}, {
+             "g", $CellContext`g}, {"normalize", False}}, Frame -> All], 
+           "Tooltip"]& ], 
+         InsetBox["spdcNonColl", 
+          Offset[{2, 2}, {-3.9466184112027825, -1.9466182504334006}], 
+          ImageScaled[{0, 0}],
+          BaseStyle->"Graphics"]}, {
+         TagBox[
+          
+          TooltipBox[
+           DiskBox[{-5.999999999999998, 1.6076938217470707*^-7}, 
+            0.05338164238701065],
+           TagBox[
+            GridBox[{{"\"head\"", "phaseshift"}, {"\"phase\"", 
+               FractionBox["\[Pi]", "3"]}}, AutoDelete -> False, 
+             GridBoxFrame -> {"Columns" -> {{True}}, "Rows" -> {{True}}}, 
+             GridBoxItemSize -> {
+              "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}], "Grid"]],
+          Annotation[#, 
+           
+           Grid[{{"head", $CellContext`phaseshift}, {
+             "phase", Rational[1, 3] Pi}}, Frame -> All], "Tooltip"]& ], 
+         InsetBox["phaseshift", 
+          Offset[{2, 2}, {-5.946618357612987, 0.05338180315639283}], 
+          ImageScaled[{0, 0}],
+          BaseStyle->"Graphics"]}, {
+         TagBox[
+          
+          TooltipBox[
+           DiskBox[{-4.999999999999998, 1.339744851455892*^-7}, 
+            0.05338164238701065],
+           TagBox[
+            
+            GridBox[{{"\"head\"", "spdcColl"}, {"\"order\"", "2"}, {
+              "\"g\"", "g"}, {"\"normalize\"", "False"}}, AutoDelete -> False,
+              GridBoxFrame -> {"Columns" -> {{True}}, "Rows" -> {{True}}}, 
+             GridBoxItemSize -> {
+              "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}], "Grid"]],
+          Annotation[#, 
+           
+           Grid[{{"head", $CellContext`spdcColl}, {"order", 2}, {
+             "g", $CellContext`g}, {"normalize", False}}, Frame -> All], 
+           "Tooltip"]& ], 
+         InsetBox["spdcColl", 
+          Offset[{2, 2}, {-4.946618357612987, 0.0533817763614958}], 
+          ImageScaled[{0, 0}],
+          BaseStyle->"Graphics"]}, {
+         TagBox[
+          
+          TooltipBox[
+           DiskBox[{-3.9999999999999987, 1.0717958811647137*^-7}, 
+            0.05338164238701065],
+           TagBox[
+            
+            GridBox[{{"\"head\"", "phaseshift"}, {"\"phase\"", "\[Pi]"}}, 
+             AutoDelete -> False, 
+             GridBoxFrame -> {"Columns" -> {{True}}, "Rows" -> {{True}}}, 
+             GridBoxItemSize -> {
+              "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}], "Grid"]],
+          Annotation[#, 
+           
+           Grid[{{"head", $CellContext`phaseshift}, {"phase", Pi}}, Frame -> 
+            All], "Tooltip"]& ], 
+         InsetBox["phaseshift", 
+          Offset[{2, 2}, {-3.946618357612988, 0.05338174956659877}], 
+          ImageScaled[{0, 0}],
+          BaseStyle->"Graphics"]}, {
+         TagBox[
+          
+          TooltipBox[
+           DiskBox[{-3.000000026794896, -0.9999999196153085}, 
+            0.05338164238701065],
+           TagBox[
+            GridBox[{{"\"head\"", "phaseshift"}, {"\"phase\"", 
+               FractionBox["\[Pi]", "3"]}}, AutoDelete -> False, 
+             GridBoxFrame -> {"Columns" -> {{True}}, "Rows" -> {{True}}}, 
+             GridBoxItemSize -> {
+              "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}], "Grid"]],
+          Annotation[#, 
+           
+           Grid[{{"head", $CellContext`phaseshift}, {
+             "phase", Rational[1, 3] Pi}}, Frame -> All], "Tooltip"]& ], 
+         InsetBox["phaseshift", 
+          Offset[{2, 2}, {-2.9466183844078855, -0.9466182772282978}], 
+          ImageScaled[{0, 0}],
+          BaseStyle->"Graphics"]}, {
+         TagBox[
+          
+          TooltipBox[
+           DiskBox[{-2.999999999999999, 8.038469108735353*^-8}, 
+            0.05338164238701065],
+           TagBox[
+            GridBox[{{"\"head\"", "phaseshift"}, {"\"phase\"", 
+               FractionBox["\[Pi]", "2"]}}, AutoDelete -> False, 
+             GridBoxFrame -> {"Columns" -> {{True}}, "Rows" -> {{True}}}, 
+             GridBoxItemSize -> {
+              "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}], "Grid"]],
+          Annotation[#, 
+           
+           Grid[{{"head", $CellContext`phaseshift}, {
+             "phase", Rational[1, 2] Pi}}, Frame -> All], "Tooltip"]& ], 
+         InsetBox["phaseshift", 
+          Offset[{2, 2}, {-2.9466183576129885, 0.05338172277170174}], 
+          ImageScaled[{0, 0}],
+          BaseStyle->"Graphics"]}, {
+         TagBox[
+          
+          TooltipBox[
+           DiskBox[{-3.000000053589793, -1.9999999196153082}, 
+            0.05338164238701065],
+           TagBox[
+            GridBox[{{"\"head\"", "phaseshift"}, {"\"phase\"", 
+               FractionBox["\[Pi]", "2"]}}, AutoDelete -> False, 
+             GridBoxFrame -> {"Columns" -> {{True}}, "Rows" -> {{True}}}, 
+             GridBoxItemSize -> {
+              "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}], "Grid"]],
+          Annotation[#, 
+           
+           Grid[{{"head", $CellContext`phaseshift}, {
+             "phase", Rational[1, 2] Pi}}, Frame -> All], "Tooltip"]& ], 
+         InsetBox["phaseshift", 
+          Offset[{2, 2}, {-2.9466184112027825, -1.9466182772282976}], 
+          ImageScaled[{0, 0}],
+          BaseStyle->"Graphics"]}, {
+         TagBox[
+          
+          TooltipBox[
+           DiskBox[{-2.0000000267948965, -0.9999999464102056}, 
+            0.05338164238701065],
+           TagBox[
+            
+            GridBox[{{"\"head\"", "spdcNonColl"}, {"\"order\"", "2"}, {
+              "\"g\"", "g"}, {"\"normalize\"", "False"}}, AutoDelete -> False,
+              GridBoxFrame -> {"Columns" -> {{True}}, "Rows" -> {{True}}}, 
+             GridBoxItemSize -> {
+              "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}], "Grid"]],
+          Annotation[#, 
+           
+           Grid[{{"head", $CellContext`spdcNonColl}, {"order", 2}, {
+             "g", $CellContext`g}, {"normalize", False}}, Frame -> All], 
+           "Tooltip"]& ], 
+         InsetBox["spdcNonColl", 
+          Offset[{2, 2}, {-1.946618384407886, -0.946618304023195}], 
+          ImageScaled[{0, 0}],
+          BaseStyle->"Graphics"]}, {
+         TagBox[
+          
+          TooltipBox[
+           DiskBox[{-1.0000000267948967, -0.9999999732051026}, 
+            0.05338164238701065],
+           TagBox[
+            
+            GridBox[{{"\"head\"", "phaseshift"}, {"\"phase\"", "\[Pi]"}}, 
+             AutoDelete -> False, 
+             GridBoxFrame -> {"Columns" -> {{True}}, "Rows" -> {{True}}}, 
+             GridBoxItemSize -> {
+              "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}], "Grid"]],
+          Annotation[#, 
+           
+           Grid[{{"head", $CellContext`phaseshift}, {"phase", Pi}}, Frame -> 
+            All], "Tooltip"]& ], 
+         InsetBox["phaseshift", 
+          Offset[{2, 2}, {-0.9466183844078861, -0.946618330818092}], 
+          ImageScaled[{0, 0}],
+          BaseStyle->"Graphics"]}, {
+         TagBox[
+          
+          TooltipBox[
+           DiskBox[{-1.0000000535897937, -1.9999999732051024}, 
+            0.05338164238701065],
+           TagBox[
+            GridBox[{{"\"head\"", "phaseshift"}, {"\"phase\"", 
+               FractionBox[
+                RowBox[{"2", " ", "\[Pi]"}], "3"]}}, AutoDelete -> False, 
+             GridBoxFrame -> {"Columns" -> {{True}}, "Rows" -> {{True}}}, 
+             GridBoxItemSize -> {
+              "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}], "Grid"]],
+          Annotation[#, 
+           
+           Grid[{{"head", $CellContext`phaseshift}, {
+             "phase", Rational[2, 3] Pi}}, Frame -> All], "Tooltip"]& ], 
+         InsetBox["phaseshift", 
+          Offset[{2, 2}, {-0.9466184112027831, -1.9466183308180918}], 
+          ImageScaled[{0, 0}],
+          BaseStyle->"Graphics"]}, {
+         TagBox[
+          TooltipBox[
+           {RGBColor[1, 0, 0], 
+            DiskBox[{-5.3589794058235685*^-8, -1.9999999999999993}, 
+             0.09999999999999995]},
+           TagBox[
+            
+            GridBox[{{"\"output\"", "1"}}, AutoDelete -> False, 
+             GridBoxFrame -> {"Columns" -> {{True}}, "Rows" -> {{True}}}, 
+             GridBoxItemSize -> {
+              "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}], "Grid"]],
+          Annotation[#, 
+           Grid[{{"output", 1}}, Frame -> All], "Tooltip"]& ], 
+         InsetBox["\<\"Output path 1\"\>", 
+          Offset[{2, 2}, {0.09999994641020589, -1.8999999999999995}], 
+          ImageScaled[{0, 0}],
+          BaseStyle->"Graphics"]}, {
+         TagBox[
+          TooltipBox[
+           {RGBColor[1, 0, 0], 
+            DiskBox[{-2.6794897029117842*^-8, -0.9999999999999997}, 
+             0.09999999999999995]},
+           TagBox[
+            
+            GridBox[{{"\"output\"", "2"}}, AutoDelete -> False, 
+             GridBoxFrame -> {"Columns" -> {{True}}, "Rows" -> {{True}}}, 
+             GridBoxItemSize -> {
+              "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}], "Grid"]],
+          Annotation[#, 
+           Grid[{{"output", 2}}, Frame -> All], "Tooltip"]& ], 
+         InsetBox["\<\"Output path 2\"\>", 
+          Offset[{2, 2}, {0.09999997320510293, -0.8999999999999997}], 
+          ImageScaled[{0, 0}],
+          BaseStyle->"Graphics"]}, {
+         TagBox[
+          TooltipBox[
+           {RGBColor[1, 0, 0], 
+            DiskBox[{-2.0000000535897935, -1.9999999464102052}, 
+             0.09999999999999995]},
+           TagBox[
+            
+            GridBox[{{"\"output\"", "3"}}, AutoDelete -> False, 
+             GridBoxFrame -> {"Columns" -> {{True}}, "Rows" -> {{True}}}, 
+             GridBoxItemSize -> {
+              "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}], "Grid"]],
+          Annotation[#, 
+           Grid[{{"output", 3}}, Frame -> All], "Tooltip"]& ], 
+         InsetBox["\<\"Output path 3\"\>", 
+          Offset[{2, 2}, {-1.9000000535897936, -1.8999999464102053}], 
+          ImageScaled[{0, 0}],
+          BaseStyle->"Graphics"]}}}],
+     MouseAppearanceTag["NetworkGraphics"]],
+    AllowKernelInitialization->False]],
+  DefaultBaseStyle->{
+   "NetworkGraphics", FrontEnd`GraphicsHighlightColor -> Hue[0.8, 1., 0.6]},
+  FormatType->TraditionalForm,
+  FrameTicks->None,
+  ImageSize->Large]], "Output",
+ CellChangeTimes->{{3.75136746362486*^9, 3.7513674813538656`*^9}, 
+   3.751367522202498*^9, {3.7519757800366416`*^9, 3.751975790914514*^9}, 
+   3.7541448624138107`*^9, 3.75421956135378*^9},
+ CellLabel->"Out[63]=",ExpressionUUID->"79b4f6f6-c8cc-4e1d-aa52-11211abe9c67"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"visualizeSetup", "[", 
+  RowBox[{"ss", ",", 
+   RowBox[{"{", 
+    RowBox[{"1", ",", "100"}], "}"}]}], "]"}]], "Input",
+ CellChangeTimes->{{3.751366492656632*^9, 3.751366495312272*^9}, 
+   3.751366716038248*^9, 3.7513669851196156`*^9, 3.751367480910013*^9, {
+   3.7519757967687626`*^9, 3.7519758148565426`*^9}, {3.7519767078621206`*^9, 
+   3.751976711919608*^9}},
+ CellLabel->"In[64]:=",ExpressionUUID->"f90d3e48-3719-4b25-944d-1168b7665ce4"],
+
+Cell[BoxData[
+ GraphicsBox[
+  NamespaceBox["NetworkGraphics",
+   DynamicModuleBox[{Typeset`graph = HoldComplete[
+     Graph[{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 
+      16}, {{{2, 4}, {3, 4}, {1, 5}, {5, 6}, {6, 7}, {4, 8}, {7, 9}, {4, 
+       10}, {9, 11}, {8, 11}, {11, 12}, {11, 13}, {13, 14}, {12, 15}, {10, 
+       16}}, Null}, {
+      GraphLayout -> {"LayeredDigraphEmbedding", "Orientation" -> Left}, 
+       ImageSize -> Large, 
+       Properties -> {
+        6 -> {Tooltip -> 
+           Grid[{{"head", $CellContext`spdcColl}, {"order", 2}, {
+              "g", $CellContext`g}, {"normalize", False}}, Frame -> All]}, 
+         1 -> {Tooltip -> Grid[{{"input", 1}}, Frame -> All]}, 
+         2 -> {Tooltip -> Grid[{{"input", 2}}, Frame -> All]}, 
+         10 -> {Tooltip -> 
+           Grid[{{"head", $CellContext`phaseshift}, {
+              "phase", Rational[1, 2] Pi}}, Frame -> All]}, 
+         12 -> {Tooltip -> 
+           Grid[{{"head", $CellContext`phaseshift}, {"phase", Pi}}, Frame -> 
+             All]}, 5 -> {
+          Tooltip -> Grid[{{"head", $CellContext`phaseshift}, {
+              "phase", Rational[1, 3] Pi}}, Frame -> All]}, 
+         14 -> {Tooltip -> Grid[{{"output", 1}}, Frame -> All]}, 
+         8 -> {Tooltip -> 
+           Grid[{{"head", $CellContext`phaseshift}, {
+              "phase", Rational[1, 3] Pi}}, Frame -> All]}, 
+         11 -> {Tooltip -> 
+           Grid[{{"head", $CellContext`spdcNonColl}, {"order", 2}, {
+              "g", $CellContext`g}, {"normalize", False}}, Frame -> All]}, 
+         3 -> {Tooltip -> Grid[{{"input", 3}}, Frame -> All]}, 
+         13 -> {Tooltip -> 
+           Grid[{{"head", $CellContext`phaseshift}, {
+              "phase", Rational[2, 3] Pi}}, Frame -> All]}, 
+         4 -> {Tooltip -> 
+           Grid[{{"head", $CellContext`spdcNonColl}, {"order", 2}, {
+              "g", $CellContext`g}, {"normalize", False}}, Frame -> All]}, 
+         9 -> {Tooltip -> 
+           Grid[{{"head", $CellContext`phaseshift}, {
+              "phase", Rational[1, 2] Pi}}, Frame -> All]}, 
+         7 -> {Tooltip -> 
+           Grid[{{"head", $CellContext`phaseshift}, {"phase", Pi}}, Frame -> 
+             All]}, 16 -> {Tooltip -> Grid[{{"output", 3}}, Frame -> All]}, 
+         15 -> {Tooltip -> Grid[{{"output", 2}}, Frame -> All]}}, 
+       VertexLabels -> {
+        6 -> $CellContext`spdcColl, 3 -> "Input path 3", 
+         11 -> $CellContext`spdcNonColl, 5 -> $CellContext`phaseshift, 
+         8 -> $CellContext`phaseshift, 7 -> $CellContext`phaseshift, 14 -> 
+         "Output path 1", 10 -> $CellContext`phaseshift, 
+         9 -> $CellContext`phaseshift, 4 -> $CellContext`spdcNonColl, 16 -> 
+         "Output path 3", 12 -> $CellContext`phaseshift, 
+         13 -> $CellContext`phaseshift, 2 -> "Input path 2", 15 -> 
+         "Output path 2", 1 -> "Input path 1"}, 
+       VertexSize -> {
+        15 -> 0.2, 3 -> 0.2, 14 -> 0.2, 16 -> 0.2, 2 -> 0.2, 1 -> 0.2}, 
+       VertexStyle -> {
+        15 -> RGBColor[1, 0, 0], 1 -> RGBColor[0, 1, 0], 2 -> 
+         RGBColor[0, 1, 0], 3 -> RGBColor[0, 1, 0], 16 -> RGBColor[1, 0, 0], 
+         14 -> GrayLevel[0]}}]]}, 
+    TagBox[GraphicsGroupBox[{
+       {Hue[0.6, 0.7, 0.5], Opacity[0.7], Arrowheads[Medium], 
+        ArrowBox[{{-6.999999999999997, 
+         1.875642792038249*^-7}, {-5.999999999999998, 
+         1.6076938217470707`*^-7}}, 0.05338164238701065], 
+        ArrowBox[{{-5.000000080384689, -2.999999866025514}, \
+{-4.000000053589793, -1.9999998928204112`}}, 0.05338164238701065], 
+        ArrowBox[{{-5.000000053589792, -1.9999998660255143`}, \
+{-4.000000053589793, -1.9999998928204112`}}, 0.05338164238701065], 
+        ArrowBox[{{-4.000000053589793, -1.9999998928204112`}, \
+{-3.000000026794896, -0.9999999196153085}}, 0.05338164238701065], 
+        ArrowBox[{{-4.000000053589793, -1.9999998928204112`}, \
+{-3.000000053589793, -1.9999999196153082`}}, 0.05338164238701065], 
+        ArrowBox[{{-5.999999999999998, 
+         1.6076938217470707`*^-7}, {-4.999999999999998, 
+         1.339744851455892*^-7}}, 0.05338164238701065], 
+        ArrowBox[{{-4.999999999999998, 
+         1.339744851455892*^-7}, {-3.9999999999999987`, 
+         1.0717958811647137`*^-7}}, 0.05338164238701065], 
+        ArrowBox[{{-3.9999999999999987`, 
+         1.0717958811647137`*^-7}, {-2.999999999999999, 
+         8.038469108735353*^-8}}, 0.05338164238701065], 
+        ArrowBox[{{-3.000000026794896, -0.9999999196153085}, \
+{-2.0000000267948965`, -0.9999999464102056}}, 0.05338164238701065], 
+        ArrowBox[{{-2.999999999999999, 
+         8.038469108735353*^-8}, {-2.0000000267948965`, -0.9999999464102056}},
+          0.05338164238701065], 
+        ArrowBox[{{-3.000000053589793, -1.9999999196153082`}, \
+{-2.0000000535897935`, -1.9999999464102052`}}, 0.05338164238701065], 
+        ArrowBox[{{-2.0000000267948965`, -0.9999999464102056}, \
+{-1.0000000267948967`, -0.9999999732051026}}, 0.05338164238701065], 
+        ArrowBox[{{-2.0000000267948965`, -0.9999999464102056}, \
+{-1.0000000535897937`, -1.9999999732051024`}}, 0.05338164238701065], 
+        ArrowBox[{{-1.0000000267948967`, -0.9999999732051026}, \
+{-2.6794897029117842`*^-8, -0.9999999999999997}}, 0.05338164238701065], 
+        ArrowBox[{{-1.0000000535897937`, -1.9999999732051024`}, \
+{-5.3589794058235685`*^-8, -1.9999999999999993`}}, 0.05338164238701065]}, 
+       {Hue[0.6, 0.2, 0.8], EdgeForm[{GrayLevel[0], Opacity[0.7]}], {
+         TagBox[
+          TooltipBox[
+           {RGBColor[0, 1, 0], 
+            DiskBox[{-6.999999999999997, 1.875642792038249*^-7}, 
+             0.09999999999999995]},
+           TagBox[
+            
+            GridBox[{{"\"input\"", "1"}}, AutoDelete -> False, 
+             GridBoxFrame -> {"Columns" -> {{True}}, "Rows" -> {{True}}}, 
+             GridBoxItemSize -> {
+              "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}], "Grid"]],
+          Annotation[#, 
+           Grid[{{"input", 1}}, Frame -> All], "Tooltip"]& ], 
+         InsetBox["\<\"Input path 1\"\>", 
+          Offset[{2, 2}, {-6.899999999999998, 0.10000018756427916}], 
+          ImageScaled[{0, 0}],
+          BaseStyle->"Graphics"]}, {
+         TagBox[
+          TooltipBox[
+           {RGBColor[0, 1, 0], 
+            DiskBox[{-5.000000080384689, -2.999999866025514}, 
+             0.09999999999999995]},
+           TagBox[
+            
+            GridBox[{{"\"input\"", "2"}}, AutoDelete -> False, 
+             GridBoxFrame -> {"Columns" -> {{True}}, "Rows" -> {{True}}}, 
+             GridBoxItemSize -> {
+              "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}], "Grid"]],
+          Annotation[#, 
+           Grid[{{"input", 2}}, Frame -> All], "Tooltip"]& ], 
+         InsetBox["\<\"Input path 2\"\>", 
+          Offset[{2, 2}, {-4.9000000803846895, -2.8999998660255137}], 
+          ImageScaled[{0, 0}],
+          BaseStyle->"Graphics"]}, {
+         TagBox[
+          TooltipBox[
+           {RGBColor[0, 1, 0], 
+            DiskBox[{-5.000000053589792, -1.9999998660255143}, 
+             0.09999999999999995]},
+           TagBox[
+            
+            GridBox[{{"\"input\"", "3"}}, AutoDelete -> False, 
+             GridBoxFrame -> {"Columns" -> {{True}}, "Rows" -> {{True}}}, 
+             GridBoxItemSize -> {
+              "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}], "Grid"]],
+          Annotation[#, 
+           Grid[{{"input", 3}}, Frame -> All], "Tooltip"]& ], 
+         InsetBox["\<\"Input path 3\"\>", 
+          Offset[{2, 2}, {-4.9000000535897925, -1.8999998660255144}], 
+          ImageScaled[{0, 0}],
+          BaseStyle->"Graphics"]}, {
+         TagBox[
+          
+          TooltipBox[
+           DiskBox[{-4.000000053589793, -1.9999998928204112}, 
+            0.05338164238701065],
+           TagBox[
+            
+            GridBox[{{"\"head\"", "spdcNonColl"}, {"\"order\"", "2"}, {
+              "\"g\"", "g"}, {"\"normalize\"", "False"}}, AutoDelete -> False,
+              GridBoxFrame -> {"Columns" -> {{True}}, "Rows" -> {{True}}}, 
+             GridBoxItemSize -> {
+              "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}], "Grid"]],
+          Annotation[#, 
+           
+           Grid[{{"head", $CellContext`spdcNonColl}, {"order", 2}, {
+             "g", $CellContext`g}, {"normalize", False}}, Frame -> All], 
+           "Tooltip"]& ], 
+         InsetBox["spdcNonColl", 
+          Offset[{2, 2}, {-3.9466184112027825, -1.9466182504334006}], 
+          ImageScaled[{0, 0}],
+          BaseStyle->"Graphics"]}, {
+         TagBox[
+          
+          TooltipBox[
+           DiskBox[{-5.999999999999998, 1.6076938217470707*^-7}, 
+            0.05338164238701065],
+           TagBox[
+            GridBox[{{"\"head\"", "phaseshift"}, {"\"phase\"", 
+               FractionBox["\[Pi]", "3"]}}, AutoDelete -> False, 
+             GridBoxFrame -> {"Columns" -> {{True}}, "Rows" -> {{True}}}, 
+             GridBoxItemSize -> {
+              "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}], "Grid"]],
+          Annotation[#, 
+           
+           Grid[{{"head", $CellContext`phaseshift}, {
+             "phase", Rational[1, 3] Pi}}, Frame -> All], "Tooltip"]& ], 
+         InsetBox["phaseshift", 
+          Offset[{2, 2}, {-5.946618357612987, 0.05338180315639283}], 
+          ImageScaled[{0, 0}],
+          BaseStyle->"Graphics"]}, {
+         TagBox[
+          
+          TooltipBox[
+           DiskBox[{-4.999999999999998, 1.339744851455892*^-7}, 
+            0.05338164238701065],
+           TagBox[
+            
+            GridBox[{{"\"head\"", "spdcColl"}, {"\"order\"", "2"}, {
+              "\"g\"", "g"}, {"\"normalize\"", "False"}}, AutoDelete -> False,
+              GridBoxFrame -> {"Columns" -> {{True}}, "Rows" -> {{True}}}, 
+             GridBoxItemSize -> {
+              "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}], "Grid"]],
+          Annotation[#, 
+           
+           Grid[{{"head", $CellContext`spdcColl}, {"order", 2}, {
+             "g", $CellContext`g}, {"normalize", False}}, Frame -> All], 
+           "Tooltip"]& ], 
+         InsetBox["spdcColl", 
+          Offset[{2, 2}, {-4.946618357612987, 0.0533817763614958}], 
+          ImageScaled[{0, 0}],
+          BaseStyle->"Graphics"]}, {
+         TagBox[
+          
+          TooltipBox[
+           DiskBox[{-3.9999999999999987, 1.0717958811647137*^-7}, 
+            0.05338164238701065],
+           TagBox[
+            
+            GridBox[{{"\"head\"", "phaseshift"}, {"\"phase\"", "\[Pi]"}}, 
+             AutoDelete -> False, 
+             GridBoxFrame -> {"Columns" -> {{True}}, "Rows" -> {{True}}}, 
+             GridBoxItemSize -> {
+              "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}], "Grid"]],
+          Annotation[#, 
+           
+           Grid[{{"head", $CellContext`phaseshift}, {"phase", Pi}}, Frame -> 
+            All], "Tooltip"]& ], 
+         InsetBox["phaseshift", 
+          Offset[{2, 2}, {-3.946618357612988, 0.05338174956659877}], 
+          ImageScaled[{0, 0}],
+          BaseStyle->"Graphics"]}, {
+         TagBox[
+          
+          TooltipBox[
+           DiskBox[{-3.000000026794896, -0.9999999196153085}, 
+            0.05338164238701065],
+           TagBox[
+            GridBox[{{"\"head\"", "phaseshift"}, {"\"phase\"", 
+               FractionBox["\[Pi]", "3"]}}, AutoDelete -> False, 
+             GridBoxFrame -> {"Columns" -> {{True}}, "Rows" -> {{True}}}, 
+             GridBoxItemSize -> {
+              "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}], "Grid"]],
+          Annotation[#, 
+           
+           Grid[{{"head", $CellContext`phaseshift}, {
+             "phase", Rational[1, 3] Pi}}, Frame -> All], "Tooltip"]& ], 
+         InsetBox["phaseshift", 
+          Offset[{2, 2}, {-2.9466183844078855, -0.9466182772282978}], 
+          ImageScaled[{0, 0}],
+          BaseStyle->"Graphics"]}, {
+         TagBox[
+          
+          TooltipBox[
+           DiskBox[{-2.999999999999999, 8.038469108735353*^-8}, 
+            0.05338164238701065],
+           TagBox[
+            GridBox[{{"\"head\"", "phaseshift"}, {"\"phase\"", 
+               FractionBox["\[Pi]", "2"]}}, AutoDelete -> False, 
+             GridBoxFrame -> {"Columns" -> {{True}}, "Rows" -> {{True}}}, 
+             GridBoxItemSize -> {
+              "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}], "Grid"]],
+          Annotation[#, 
+           
+           Grid[{{"head", $CellContext`phaseshift}, {
+             "phase", Rational[1, 2] Pi}}, Frame -> All], "Tooltip"]& ], 
+         InsetBox["phaseshift", 
+          Offset[{2, 2}, {-2.9466183576129885, 0.05338172277170174}], 
+          ImageScaled[{0, 0}],
+          BaseStyle->"Graphics"]}, {
+         TagBox[
+          
+          TooltipBox[
+           DiskBox[{-3.000000053589793, -1.9999999196153082}, 
+            0.05338164238701065],
+           TagBox[
+            GridBox[{{"\"head\"", "phaseshift"}, {"\"phase\"", 
+               FractionBox["\[Pi]", "2"]}}, AutoDelete -> False, 
+             GridBoxFrame -> {"Columns" -> {{True}}, "Rows" -> {{True}}}, 
+             GridBoxItemSize -> {
+              "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}], "Grid"]],
+          Annotation[#, 
+           
+           Grid[{{"head", $CellContext`phaseshift}, {
+             "phase", Rational[1, 2] Pi}}, Frame -> All], "Tooltip"]& ], 
+         InsetBox["phaseshift", 
+          Offset[{2, 2}, {-2.9466184112027825, -1.9466182772282976}], 
+          ImageScaled[{0, 0}],
+          BaseStyle->"Graphics"]}, {
+         TagBox[
+          
+          TooltipBox[
+           DiskBox[{-2.0000000267948965, -0.9999999464102056}, 
+            0.05338164238701065],
+           TagBox[
+            
+            GridBox[{{"\"head\"", "spdcNonColl"}, {"\"order\"", "2"}, {
+              "\"g\"", "g"}, {"\"normalize\"", "False"}}, AutoDelete -> False,
+              GridBoxFrame -> {"Columns" -> {{True}}, "Rows" -> {{True}}}, 
+             GridBoxItemSize -> {
+              "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}], "Grid"]],
+          Annotation[#, 
+           
+           Grid[{{"head", $CellContext`spdcNonColl}, {"order", 2}, {
+             "g", $CellContext`g}, {"normalize", False}}, Frame -> All], 
+           "Tooltip"]& ], 
+         InsetBox["spdcNonColl", 
+          Offset[{2, 2}, {-1.946618384407886, -0.946618304023195}], 
+          ImageScaled[{0, 0}],
+          BaseStyle->"Graphics"]}, {
+         TagBox[
+          
+          TooltipBox[
+           DiskBox[{-1.0000000267948967, -0.9999999732051026}, 
+            0.05338164238701065],
+           TagBox[
+            
+            GridBox[{{"\"head\"", "phaseshift"}, {"\"phase\"", "\[Pi]"}}, 
+             AutoDelete -> False, 
+             GridBoxFrame -> {"Columns" -> {{True}}, "Rows" -> {{True}}}, 
+             GridBoxItemSize -> {
+              "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}], "Grid"]],
+          Annotation[#, 
+           
+           Grid[{{"head", $CellContext`phaseshift}, {"phase", Pi}}, Frame -> 
+            All], "Tooltip"]& ], 
+         InsetBox["phaseshift", 
+          Offset[{2, 2}, {-0.9466183844078861, -0.946618330818092}], 
+          ImageScaled[{0, 0}],
+          BaseStyle->"Graphics"]}, {
+         TagBox[
+          
+          TooltipBox[
+           DiskBox[{-1.0000000535897937, -1.9999999732051024}, 
+            0.05338164238701065],
+           TagBox[
+            GridBox[{{"\"head\"", "phaseshift"}, {"\"phase\"", 
+               FractionBox[
+                RowBox[{"2", " ", "\[Pi]"}], "3"]}}, AutoDelete -> False, 
+             GridBoxFrame -> {"Columns" -> {{True}}, "Rows" -> {{True}}}, 
+             GridBoxItemSize -> {
+              "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}], "Grid"]],
+          Annotation[#, 
+           
+           Grid[{{"head", $CellContext`phaseshift}, {
+             "phase", Rational[2, 3] Pi}}, Frame -> All], "Tooltip"]& ], 
+         InsetBox["phaseshift", 
+          Offset[{2, 2}, {-0.9466184112027831, -1.9466183308180918}], 
+          ImageScaled[{0, 0}],
+          BaseStyle->"Graphics"]}, {
+         TagBox[
+          TooltipBox[
+           {GrayLevel[0], 
+            DiskBox[{-5.3589794058235685*^-8, -1.9999999999999993}, 
+             0.09999999999999995]},
+           TagBox[
+            
+            GridBox[{{"\"output\"", "1"}}, AutoDelete -> False, 
+             GridBoxFrame -> {"Columns" -> {{True}}, "Rows" -> {{True}}}, 
+             GridBoxItemSize -> {
+              "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}], "Grid"]],
+          Annotation[#, 
+           Grid[{{"output", 1}}, Frame -> All], "Tooltip"]& ], 
+         InsetBox["\<\"Output path 1\"\>", 
+          Offset[{2, 2}, {0.09999994641020589, -1.8999999999999995}], 
+          ImageScaled[{0, 0}],
+          BaseStyle->"Graphics"]}, {
+         TagBox[
+          TooltipBox[
+           {RGBColor[1, 0, 0], 
+            DiskBox[{-2.6794897029117842*^-8, -0.9999999999999997}, 
+             0.09999999999999995]},
+           TagBox[
+            
+            GridBox[{{"\"output\"", "2"}}, AutoDelete -> False, 
+             GridBoxFrame -> {"Columns" -> {{True}}, "Rows" -> {{True}}}, 
+             GridBoxItemSize -> {
+              "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}], "Grid"]],
+          Annotation[#, 
+           Grid[{{"output", 2}}, Frame -> All], "Tooltip"]& ], 
+         InsetBox["\<\"Output path 2\"\>", 
+          Offset[{2, 2}, {0.09999997320510293, -0.8999999999999997}], 
+          ImageScaled[{0, 0}],
+          BaseStyle->"Graphics"]}, {
+         TagBox[
+          TooltipBox[
+           {RGBColor[1, 0, 0], 
+            DiskBox[{-2.0000000535897935, -1.9999999464102052}, 
+             0.09999999999999995]},
+           TagBox[
+            
+            GridBox[{{"\"output\"", "3"}}, AutoDelete -> False, 
+             GridBoxFrame -> {"Columns" -> {{True}}, "Rows" -> {{True}}}, 
+             GridBoxItemSize -> {
+              "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}], "Grid"]],
+          Annotation[#, 
+           Grid[{{"output", 3}}, Frame -> All], "Tooltip"]& ], 
+         InsetBox["\<\"Output path 3\"\>", 
+          Offset[{2, 2}, {-1.9000000535897936, -1.8999999464102053}], 
+          ImageScaled[{0, 0}],
+          BaseStyle->"Graphics"]}}}],
+     MouseAppearanceTag["NetworkGraphics"]],
+    AllowKernelInitialization->False]],
+  DefaultBaseStyle->{
+   "NetworkGraphics", FrontEnd`GraphicsHighlightColor -> Hue[0.8, 1., 0.6]},
+  FormatType->TraditionalForm,
+  FrameTicks->None,
+  ImageSize->Large]], "Output",
+ CellChangeTimes->{{3.751975800925564*^9, 3.7519758157431917`*^9}, 
+   3.751976712734228*^9, 3.751976770696066*^9, 3.754144862521521*^9, 
+   3.7542195614644847`*^9},
+ CellLabel->"Out[64]=",ExpressionUUID->"ddf52596-8b8c-4c54-96b3-1acbd2990f86"]
+}, Open  ]]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Analysis", "Subchapter",
+ CellChangeTimes->{{3.7517251854126053`*^9, 3.7517251890121584`*^9}, {
+  3.7733935607083993`*^9, 
+  3.773393560850016*^9}},ExpressionUUID->"7c0e0d56-13bd-43bb-8fd1-\
+0559c4e97e25"],
+
+Cell[BoxData[
+ RowBox[{"ClearAll", "[", "analyzeSetup", "]"}]], "Input",
+ CellChangeTimes->{{3.7518731303461065`*^9, 3.7518731332907934`*^9}},
+ CellLabel->"In[65]:=",ExpressionUUID->"f45717f3-0c48-4793-bc29-b6b2bd44dc41"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"analyzeSetup", "[", "filename_String", "]"}], ":=", 
+  RowBox[{"Module", "[", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{"data", ",", "coincList"}], "}"}], ",", "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"data", "=", 
+      RowBox[{"Get", "[", "filename", "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"(*", 
+      RowBox[{
+       RowBox[{"Print", "[", 
+        RowBox[{"data", "[", "\"\<matches\>\"", "]"}], "]"}], ";"}], "*)"}], 
+     "\[IndentingNewLine]", 
+     RowBox[{"coincList", "=", 
+      RowBox[{"data", "[", "\"\<coincidenceList\>\"", "]"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"If", "[", 
+      RowBox[{
+       RowBox[{"MissingQ", "@", "coincList"}], ",", 
+       RowBox[{"coincList", "=", 
+        RowBox[{"{", "}"}]}]}], "]"}], ";", "\[IndentingNewLine]", 
+     RowBox[{"analyzeSetup", "[", 
+      RowBox[{
+       RowBox[{"data", "[", "\"\<setup\>\"", "]"}], ",", 
+       RowBox[{"data", "[", "\"\<initState\>\"", "]"}], ",", 
+       RowBox[{"data", "[", "\"\<referencePatterns\>\"", "]"}], ",", 
+       "coincList", ",", 
+       RowBox[{"data", "[", "\"\<couplingConstant\>\"", "]"}], ",", 
+       RowBox[{"data", "[", "\"\<outputState\>\"", "]"}], ",", 
+       RowBox[{"data", "[", "\"\<unwantedPatternsZero\>\"", "]"}], ",", 
+       RowBox[{"data", "[", "\"\<unwantedPatternsFirst\>\"", "]"}], ",", 
+       "filename"}], "]"}]}]}], "\[IndentingNewLine]", "]"}]}]], "Input",
+ InitializationCell->True,
+ CellChangeTimes->{{3.7517235720517726`*^9, 3.751723584430093*^9}, {
+   3.7518729279767504`*^9, 3.7518729464175267`*^9}, 3.7518730024375076`*^9, {
+   3.751873582267623*^9, 3.7518735880893235`*^9}, {3.7518742380434155`*^9, 
+   3.7518742558177357`*^9}, {3.75188228936668*^9, 3.7518822910242467`*^9}, {
+   3.751883452198557*^9, 3.751883460147256*^9}, 3.7518837954163375`*^9, 
+   3.751966930155862*^9, 3.751968150543064*^9, {3.751976863282913*^9, 
+   3.751976868086732*^9}, {3.7519771930559096`*^9, 3.751977226959015*^9}},
+ CellLabel->"In[28]:=",ExpressionUUID->"489ff8f6-5570-468d-8e42-fb99e91e2bd3"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"analyzeSetup", "[", 
+   RowBox[{"setup_", ",", "inputState_", ",", "referencePatterns_", ",", 
+    RowBox[{"coincidenceList_:", 
+     RowBox[{"{", "}"}]}], ",", 
+    RowBox[{"couplconst_:", "g"}], ",", 
+    RowBox[{"outputStateIn_:", "None"}], ",", 
+    RowBox[{"unwantedPatternsZero_:", "None"}], ",", 
+    RowBox[{"unwantedPatternsFirst_:", "None"}], ",", 
+    RowBox[{"filename_:", "None"}]}], "]"}], ":=", 
+  RowBox[{"Module", "[", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{
+     "outputState", ",", "zeroOrder", ",", "firstOrder", ",", "coef", ",", 
+      "coefconj", ",", "visu", ",", "precompl", ",", "postcompl", ",", 
+      "assoc", ",", "matches", ",", "nonmatches", ",", "grid", ",", 
+      RowBox[{"initState", "=", "inputState"}], ",", "nm0", ",", "nm1", ",", 
+      "nm1c"}], "}"}], ",", "\[IndentingNewLine]", 
+    RowBox[{"(*", 
+     RowBox[{"visualization", " ", "of", " ", "the", " ", "setup"}], "*)"}], 
+    "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"visu", "=", 
+      RowBox[{"visualizeSetup", "[", 
+       RowBox[{"setup", ",", "coincidenceList"}], "]"}]}], ";", 
+     "\[IndentingNewLine]", "\[IndentingNewLine]", 
+     RowBox[{"If", "[", 
+      RowBox[{
+       RowBox[{"outputStateIn", "=!=", "None"}], ",", "\[IndentingNewLine]", 
+       RowBox[{"(*", 
+        RowBox[{
+        "if", " ", "output", " ", "state", " ", "is", " ", "also", " ", 
+         "supplied", " ", "do", " ", "not", " ", "calculate", " ", "it", " ", 
+         "again"}], "*)"}], "\[IndentingNewLine]", 
+       RowBox[{"outputState", "=", "outputStateIn"}], "\[IndentingNewLine]", 
+       ",", "\[IndentingNewLine]", 
+       RowBox[{"(*", 
+        RowBox[{
+        "generate", " ", "state", " ", "and", " ", "estimate", " ", 
+         "complexity", " ", "before", " ", "and", " ", "after", " ", 
+         "simplification"}], "*)"}], "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"outputState", "=", 
+         RowBox[{
+          RowBox[{"(", 
+           RowBox[{"Composition", "@@", "setup"}], ")"}], "[", "initState", 
+          "]"}]}], ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"Length", "@", "coincidenceList"}], ">", "0"}], ",", 
+          RowBox[{
+           RowBox[{"outputState", "=", 
+            RowBox[{"coincidenceDetection", "[", 
+             RowBox[{"outputState", ",", "coincidenceList", ",", "True"}], 
+             "]"}]}], ";"}]}], "]"}], ";", "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", 
+        RowBox[{"precompl", "=", 
+         RowBox[{"Count", "[", 
+          RowBox[{"outputState", ",", "$pattern", ",", "Infinity"}], "]"}]}], 
+        ";", "\[IndentingNewLine]", 
+        RowBox[{"outputState", "=", 
+         RowBox[{"Collect", "[", 
+          RowBox[{"outputState", ",", "$pattern", ",", "Simplify"}], "]"}]}], 
+        ";", "\[IndentingNewLine]", 
+        RowBox[{"postcompl", "=", 
+         RowBox[{"Count", "[", 
+          RowBox[{"outputState", ",", "$pattern", ",", "Infinity"}], "]"}]}], 
+        ";"}]}], "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
+     "\[IndentingNewLine]", 
+     RowBox[{"zeroOrder", "=", 
+      RowBox[{"getGCoeff", "[", 
+       RowBox[{"outputState", ",", "couplconst", ",", "0"}], "]"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"firstOrder", "=", 
+      RowBox[{"getGCoeff", "[", 
+       RowBox[{"outputState", ",", "couplconst", ",", "1"}], "]"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"coef", ",", "coefconj"}], "}"}], "=", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"Coefficient", "[", 
+         RowBox[{"firstOrder", ",", "couplconst"}], "]"}], ",", 
+        RowBox[{"Coefficient", "[", 
+         RowBox[{"firstOrder", ",", 
+          RowBox[{"couplconst", "\[Conjugate]"}]}], "]"}]}], "}"}]}], ";", 
+     "\[IndentingNewLine]", "\[IndentingNewLine]", 
+     RowBox[{"matches", "=", 
+      RowBox[{"relevantTerms", "[", 
+       RowBox[{"firstOrder", ",", "referencePatterns", ",", "True"}], "]"}]}],
+      ";", "\[IndentingNewLine]", 
+     RowBox[{"(*", 
+      RowBox[{
+       RowBox[{"nm0", "=", 
+        RowBox[{"Cases", "[", 
+         RowBox[{"zeroOrder", ",", "unwantedPatternsZero"}], "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"nm1", "=", 
+        RowBox[{"Cases", "[", 
+         RowBox[{"coef", ",", "unwantedPatternsFirst"}], "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"nm1c", "=", 
+        RowBox[{"Cases", "[", 
+         RowBox[{"coefconj", ",", "unwantedPatternsFirst"}], "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"nonmatches", "=", 
+        RowBox[{
+         RowBox[{"Plus", "@@", "nm0"}], "+", 
+         RowBox[{"couplconst", " ", 
+          RowBox[{"Plus", "@@", "nm1"}]}], "+", 
+         RowBox[{
+          RowBox[{"couplconst", "\[Conjugate]"}], " ", 
+          RowBox[{"Plus", "@@", "nm1c"}]}]}]}], ";"}], "*)"}], 
+     "\[IndentingNewLine]", 
+     RowBox[{"(*", 
+      RowBox[{
+       RowBox[{"nonmatches", "=", 
+        RowBox[{"Cases", "[", 
+         RowBox[{"firstOrder", ",", "unwantedPatternsFirst"}], "]"}]}], ";"}],
+       "*)"}], "\[IndentingNewLine]", 
+     RowBox[{"nonmatches", "=", 
+      RowBox[{"relevantTerms", "[", 
+       RowBox[{"firstOrder", ",", "unwantedPatternsFirst", ",", "True"}], 
+       "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"grid", "=", 
+      RowBox[{"{", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"{", 
+         RowBox[{"\"\<file name\>\"", ",", "filename"}], "}"}], ",", 
+        RowBox[{"{", 
+         RowBox[{"\"\<visualization\>\"", ",", "visu"}], "}"}], ",", 
+        "\[IndentingNewLine]", 
+        RowBox[{"{", 
+         RowBox[{"\"\<terms satisfying criteria\>\"", ",", 
+          RowBox[{"Item", "[", 
+           RowBox[{"matches", ",", 
+            RowBox[{"Background", "\[Rule]", "LightGreen"}]}], "]"}]}], "}"}],
+         ",", "\[IndentingNewLine]", 
+        RowBox[{"{", 
+         RowBox[{"\"\<unwanted parts in 1st order\>\"", ",", 
+          RowBox[{"Item", "[", 
+           RowBox[{"nonmatches", ",", 
+            RowBox[{"Background", "\[Rule]", "LightOrange"}]}], "]"}]}], 
+         "}"}], ",", "\[IndentingNewLine]", 
+        RowBox[{"{", 
+         RowBox[{"\"\<state complexity estimate\>\"", ",", 
+          RowBox[{"Count", "[", 
+           RowBox[{"outputState", ",", "$pattern", ",", "Infinity"}], "]"}]}],
+          "}"}], ",", "\[IndentingNewLine]", 
+        RowBox[{"{", 
+         RowBox[{
+         "\"\<coincidences triggering paths\>\"", ",", "coincidenceList"}], 
+         "}"}], ",", "\[IndentingNewLine]", 
+        RowBox[{"{", 
+         RowBox[{"\"\<input state\>\"", ",", "initState"}], "}"}], ",", 
+        "\[IndentingNewLine]", 
+        RowBox[{"{", 
+         RowBox[{"\"\<reference patterns\>\"", ",", "referencePatterns"}], 
+         "}"}], ",", "\[IndentingNewLine]", 
+        RowBox[{"{", 
+         RowBox[{"\"\<highlighted first order\>\"", ",", 
+          RowBox[{"Block", "[", 
+           RowBox[{
+            RowBox[{"{", 
+             RowBox[{"$pattern", "=", "_Ket"}], "}"}], ",", 
+            RowBox[{"highlightTerms", "[", 
+             RowBox[{"operToKet", "@", "firstOrder"}], "]"}]}], "]"}]}], 
+         "}"}], ",", "\[IndentingNewLine]", 
+        RowBox[{"{", 
+         RowBox[{"\"\<zero order\>\"", ",", 
+          RowBox[{"Block", "[", 
+           RowBox[{
+            RowBox[{"{", 
+             RowBox[{"$pattern", "=", "_Ket"}], "}"}], ",", 
+            RowBox[{"highlightTerms", "[", 
+             RowBox[{"operToKet", "@", "zeroOrder"}], "]"}]}], "]"}]}], "}"}],
+         ",", "\[IndentingNewLine]", 
+        RowBox[{"{", 
+         RowBox[{
+         "\"\<unwanted patterns in 1st order\>\"", ",", 
+          "unwantedPatternsFirst"}], "}"}]}], "\[IndentingNewLine]", 
+       RowBox[{"(*", 
+        RowBox[{
+         RowBox[{"{", 
+          RowBox[{"\"\<output state\>\"", ",", 
+           RowBox[{"Shallow", "[", "outputState", "]"}]}], "}"}], ","}], 
+        "*)"}], 
+       RowBox[{"(*", 
+        RowBox[{",", 
+         RowBox[{"{", 
+          RowBox[{"\"\<first order g\>\"", ",", "coef"}], "}"}], ",", 
+         RowBox[{"{", 
+          RowBox[{"\"\<first order g\[Conjugate]\>\"", ",", "coefconj"}], 
+          "}"}]}], "*)"}], "\[IndentingNewLine]", "}"}]}], ";", 
+     "\[IndentingNewLine]", "\[IndentingNewLine]", 
+     RowBox[{"Grid", "[", 
+      RowBox[{"grid", ",", 
+       RowBox[{"Alignment", "\[Rule]", 
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{"Right", ",", "Left"}], "}"}], ",", "Center"}], "}"}]}], 
+       ",", 
+       RowBox[{"Background", "\[Rule]", 
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"{", "LightGray", "}"}], ",", "None"}], "}"}]}], ",", 
+       RowBox[{"Frame", "\[Rule]", "All"}]}], "]"}]}]}], 
+   "\[IndentingNewLine]", "]"}]}]], "Input",
+ InitializationCell->True,
+ CellChangeTimes->{{3.7517143767226095`*^9, 3.7517145063728027`*^9}, {
+   3.7517145979570613`*^9, 3.7517146176787977`*^9}, {3.7517154830234537`*^9, 
+   3.751715601557367*^9}, {3.7517156408117824`*^9, 3.7517156721009254`*^9}, {
+   3.751715747972382*^9, 3.7517157489447803`*^9}, {3.7517160164695177`*^9, 
+   3.751716220794056*^9}, {3.75171632893755*^9, 3.751716379164529*^9}, {
+   3.7517166497619915`*^9, 3.751716734340108*^9}, {3.751716959050151*^9, 
+   3.751716991815959*^9}, 3.751717024531536*^9, {3.7517170643178515`*^9, 
+   3.7517170839306216`*^9}, {3.7517171345560102`*^9, 3.751717176030566*^9}, {
+   3.7517172190638046`*^9, 3.7517172369739227`*^9}, {3.751717326650203*^9, 
+   3.75171742673561*^9}, {3.7517234211734824`*^9, 3.7517235022192926`*^9}, {
+   3.751872789865126*^9, 3.751872901009611*^9}, 3.751872963814282*^9, {
+   3.7518730061148124`*^9, 3.751873085633395*^9}, 3.751873220560832*^9, {
+   3.7518732705206947`*^9, 3.7518732743762617`*^9}, 3.751873373524707*^9, {
+   3.751873433965*^9, 3.7518734607260537`*^9}, {3.7518735001124477`*^9, 
+   3.751873759886324*^9}, {3.751874028936859*^9, 3.75187418222857*^9}, {
+   3.7518800377736626`*^9, 3.751880085949252*^9}, {3.7518801525443296`*^9, 
+   3.7518801798706846`*^9}, {3.751882259145524*^9, 3.751882287340101*^9}, 
+   3.7518825138732886`*^9, {3.7518826642141223`*^9, 3.751882670636941*^9}, {
+   3.75188363603479*^9, 3.7518836506486607`*^9}, {3.751883759969369*^9, 
+   3.7518838722837152`*^9}, {3.751967077852803*^9, 3.7519670875169153`*^9}, {
+   3.7519677018454866`*^9, 3.751967702548192*^9}, 3.7519679790630937`*^9, {
+   3.751968119316018*^9, 3.7519681379878197`*^9}, {3.7519768716291614`*^9, 
+   3.751976970448572*^9}, {3.7519770571398225`*^9, 3.7519771289107513`*^9}, 
+   3.7522190436977262`*^9, {3.7560449022546253`*^9, 3.7560449054191685`*^9}, {
+   3.756198529537399*^9, 3.756198556108315*^9}, {3.756198692503632*^9, 
+   3.7561987100905995`*^9}, {3.7561987916595345`*^9, 
+   3.7561988073066626`*^9}, {3.756198862148027*^9, 3.7561988663876925`*^9}, {
+   3.7561989672420635`*^9, 3.756198992600224*^9}, {3.7609647657609673`*^9, 
+   3.7609647672679386`*^9}, {3.7610298846918707`*^9, 3.761029949117771*^9}},
+ CellLabel->"In[29]:=",ExpressionUUID->"03ca2f45-934c-4e89-ad00-3ca9407b4bbf"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Analysis", "Chapter",
+ CellChangeTimes->{{3.7517237447962637`*^9, 3.75172374650933*^9}, {
+  3.7733935513517017`*^9, 
+  3.773393553257549*^9}},ExpressionUUID->"d9309cb6-e898-47a8-8765-\
+7fda539db2b2"],
+
+Cell[CellGroupData[{
+
+Cell["Set Directory", "Subchapter",
+ CellChangeTimes->{{3.756199097940605*^9, 
+  3.756199099973131*^9}},ExpressionUUID->"a46abdb1-0fa7-4f76-bb62-\
+82e25b1ec07f"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"SetDirectory", "[", 
+  RowBox[{"NotebookDirectory", "[", "]"}], "]"}]], "Input",
+ CellChangeTimes->{{3.756038450716697*^9, 3.7560384546541777`*^9}},
+ CellLabel->"In[25]:=",ExpressionUUID->"696b25c2-05ce-4d05-9f64-92260ebad2b6"],
+
+Cell[BoxData["\<\"C:\\\\Users\\\\Jaroslav \
+Kysela\\\\Dropbox\\\\stimulSPDC\"\>"], "Output",
+ CellChangeTimes->{3.7560384550561028`*^9, 3.7560441975323305`*^9, 
+  3.756046623083393*^9, 3.7561172603810406`*^9, 3.7561912051705904`*^9, 
+  3.756192952547656*^9, 3.756193751036828*^9, 3.7609642767815933`*^9, 
+  3.7609665275488386`*^9, 3.7609718137366433`*^9, 3.761028141243322*^9, 
+  3.76103796176976*^9},
+ CellLabel->"Out[25]=",ExpressionUUID->"30b4ebb9-1cb7-4983-ab55-023c05b19d00"]
+}, Open  ]],
+
+Cell[BoxData[
+ RowBox[{"(*", 
+  RowBox[{
+  "SetDirectory", "[", 
+   "\"\<C:\\\\Users\\\\Jaroslav Kysela\\\\Desktop\\\\stimulSPDC\>\"", "]"}], 
+  "*)"}]], "Input",
+ CellChangeTimes->{{3.751872254945882*^9, 3.7518722724667244`*^9}, 
+   3.7560384499168367`*^9},
+ CellLabel->
+  "In[100]:=",ExpressionUUID->"1e2be5bf-26c1-41c7-9ef7-e47c3c30d123"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"dir", "=", 
+   TagBox[
+    DynamicModuleBox[{Typeset`var$$ = 
+     "C:\\Users\\Jaroslav Kysela\\Dropbox\\stimulSPDC\\setups_Thu_07_3_2019"}, 
+     TemplateBox[{Dynamic[Typeset`var$$],"Directory",All},
+      "FileNameSetterBoxes"],
+     DynamicModuleValues:>{}],
+    Setting]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{"SetDirectory", "[", "dir", "]"}]}], "Input",
+ CellChangeTimes->{{3.751882163607093*^9, 3.751882180260543*^9}},
+ CellLabel->"In[23]:=",ExpressionUUID->"97ec213c-1446-4503-94ef-f1719c299899"],
+
+Cell[BoxData["\<\"C:\\\\Users\\\\Jaroslav \
+Kysela\\\\Dropbox\\\\stimulSPDC\\\\setups_Thu_07_3_2019\"\>"], "Output",
+ CellChangeTimes->{{3.7518821637058287`*^9, 3.7518821824307365`*^9}, 
+   3.7518832270328417`*^9, 3.751887411046423*^9, 3.7519668360525904`*^9, 
+   3.7519771420262475`*^9, 3.752216424560976*^9, 3.7522164555700274`*^9, 
+   3.7522177057325974`*^9, 3.752234245758605*^9, 3.752234592235515*^9, 
+   3.7523056225426455`*^9, {3.753164340938447*^9, 3.7531643515909376`*^9}, 
+   3.7531852472459693`*^9, 3.7534251196548624`*^9, 3.7541448629164677`*^9, 
+   3.7541449062571297`*^9, {3.754213252525878*^9, 3.754213263046732*^9}, 
+   3.7542195618115664`*^9, 3.754219859146056*^9, 3.7560384939910326`*^9, 
+   3.7560442049495034`*^9, {3.7560465999651875`*^9, 3.7560466284709945`*^9}, 
+   3.756117261751377*^9, 3.756191206736405*^9, 3.75619295510784*^9, 
+   3.7561937512522526`*^9, 3.760964293083001*^9, 3.760966529320099*^9},
+ CellLabel->"Out[24]=",ExpressionUUID->"d681778b-49fb-45cd-a6ec-b65a27d11554"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"files", "=", 
+   RowBox[{"FileNames", "[", "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{"Length", "[", "files", "]"}]}], "Input",
+ CellChangeTimes->{{3.751872422358487*^9, 3.751872432008954*^9}},
+ CellLabel->"In[25]:=",ExpressionUUID->"02926ba4-8bb6-4a0b-bf9d-5a7d5c3dd53b"],
+
+Cell[BoxData["3"], "Output",
+ CellChangeTimes->{
+  3.7518724329524317`*^9, 3.7518799028350053`*^9, 3.751882353753443*^9, 
+   3.751883281961904*^9, 3.751883716891604*^9, 3.751887414032238*^9, 
+   3.751888513883*^9, 3.7519668487189093`*^9, 3.751977145130245*^9, {
+   3.752216432851797*^9, 3.752216460157755*^9}, 3.75221771063548*^9, 
+   3.752234249110895*^9, 3.752234593008447*^9, 3.7522473257647295`*^9, 
+   3.7523056243957386`*^9, 3.7531643527448545`*^9, 3.7531852492149415`*^9, 
+   3.75318830802326*^9, 3.753190969357452*^9, 3.7531941765844555`*^9, 
+   3.7534251204487424`*^9, 3.754144863062078*^9, 3.7541449075366974`*^9, 
+   3.754213265166062*^9, 3.7542195619202642`*^9, 3.7542198624322624`*^9, 
+   3.7560384635625772`*^9, 3.7560384949594574`*^9, 3.756044206528284*^9, 
+   3.7560466294554014`*^9, 3.756117262788604*^9, 3.756191207971103*^9, 
+   3.7561929563455367`*^9, 3.7561937514108276`*^9, {3.7609642811489124`*^9, 
+   3.760964294479266*^9}, 3.7609665315621185`*^9},
+ CellLabel->"Out[26]=",ExpressionUUID->"38c06730-04da-42c8-8377-fec64eee3cbf"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Set file", "Subchapter",
+ CellChangeTimes->{{3.756199126126361*^9, 
+  3.7561991268384967`*^9}},ExpressionUUID->"ef8872e3-88aa-49d9-b073-\
+88e81634ddb3"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"file", "=", 
+   TagBox[
+    DynamicModuleBox[{Typeset`var$$ = 
+     "C:\\Users\\Jaroslav \
+Kysela\\Dropbox\\stimulSPDC\\setups_Fri_08_3_2019\\setup_Fri_08_3_2019_\
+13h41m26s.txt"}, 
+     TemplateBox[{Dynamic[Typeset`var$$],"Open",All},
+      "FileNameSetterBoxes"],
+     DynamicModuleValues:>{}],
+    Setting]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"(*", 
+   RowBox[{"file", "=", 
+    RowBox[{"files", "[", 
+     RowBox[{"[", "1", "]"}], "]"}]}], "*)"}]}]}], "Input",
+ CellChangeTimes->{{3.7518824800407915`*^9, 3.751882480848641*^9}, {
+   3.752216450301156*^9, 3.7522164517592216`*^9}, 3.7561986430658092`*^9},
+ CellLabel->"In[30]:=",ExpressionUUID->"38b3370a-ffb0-4ef7-a3d8-ff8685692852"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"analyzeSetup", "[", "file", 
+  RowBox[{"(*", 
+   RowBox[{"files", "[", 
+    RowBox[{"[", 
+     RowBox[{"-", "1"}], "]"}], "]"}], "*)"}], "]"}]], "Input",
+ CellChangeTimes->{{3.751723354729532*^9, 3.751723363320951*^9}, {
+   3.7517236239114003`*^9, 3.751723630913664*^9}, 3.7517261313780165`*^9, 
+   3.751777538286152*^9, {3.751872437935891*^9, 3.7518724994401803`*^9}, 
+   3.751873146099246*^9, {3.751882242138019*^9, 3.7518822462520227`*^9}, {
+   3.7518823311150026`*^9, 3.751882332832448*^9}, {3.751882475640566*^9, 
+   3.7518824774726605`*^9}, {3.751882820229784*^9, 3.7518828221556606`*^9}, 
+   3.7518832861885986`*^9, 3.751883316552374*^9, {3.751887419513239*^9, 
+   3.7518874199750867`*^9}, 3.751973176715681*^9, 3.752216478077817*^9, {
+   3.752217721660988*^9, 3.752217722273349*^9}, 3.7522342533832607`*^9, {
+   3.752234596417327*^9, 3.7522345975752296`*^9}, 3.752247405242131*^9, 
+   3.7522474425992284`*^9, 3.7523056311081767`*^9, 3.75318578589785*^9, 
+   3.753188311439515*^9, 3.7531883667178235`*^9, 3.7531909727433963`*^9, 
+   3.753194180677515*^9, {3.753425124002243*^9, 3.7534251245926647`*^9}, 
+   3.7541449125722857`*^9, 3.754219557342512*^9, {3.756191251045933*^9, 
+   3.75619125247112*^9}, {3.7561929612484336`*^9, 3.756192963220121*^9}, {
+   3.7561985882892694`*^9, 3.7561985900525646`*^9}},
+ CellLabel->"In[31]:=",ExpressionUUID->"b4e6be3e-6fd0-4c43-ba1e-c2dc7edf59cf"],
+
+Cell[BoxData[
+ TagBox[GridBox[{
+    {"\<\"file name\"\>", "\<\"C:\\\\Users\\\\Jaroslav \
+Kysela\\\\Dropbox\\\\stimulSPDC\\\\setups_Fri_08_3_2019\\\\setup_Fri_08_3_\
+2019_13h41m26s.txt\"\>"},
+    {"\<\"visualization\"\>", 
+     GraphicsBox[
+      NamespaceBox["NetworkGraphics",
+       DynamicModuleBox[{Typeset`graph = HoldComplete[
+         Graph[{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18,
+           19, 20, 21, 22, 23, 24, 25, 26, 
+          27}, {{{5, 7}, {4, 8}, {6, 9}, {8, 10}, {3, 11}, {2, 12}, {10, 
+           12}, {11, 13}, {7, 13}, {1, 14}, {12, 15}, {14, 16}, {13, 17}, {9, 
+           18}, {13, 19}, {12, 20}, {15, 21}, {19, 21}, {16, 22}, {21, 23}, {
+           21, 24}, {20, 25}, {17, 26}, {18, 27}}, Null}, {
+          GraphLayout -> {"LayeredDigraphEmbedding", "Orientation" -> Left}, 
+           ImageSize -> Large, 
+           Properties -> {
+            6 -> {Tooltip -> Grid[{{"input", 6}}, Frame -> All]}, 
+             23 -> {Tooltip -> Grid[{{"output", 2}}, Frame -> All]}, 
+             2 -> {Tooltip -> Grid[{{"input", 2}}, Frame -> All]}, 
+             1 -> {Tooltip -> Grid[{{"input", 1}}, Frame -> All]}, 
+             21 -> {Tooltip -> 
+               Grid[{{"head", $CellContext`beamsplitterOperOper}, {
+                  "reflang", Rational[1, 4] Pi}}, Frame -> All]}, 
+             24 -> {Tooltip -> Grid[{{"output", 3}}, Frame -> All]}, 
+             18 -> {Tooltip -> 
+               Grid[{{"head", $CellContext`spdcCollOperOper}, {"order", 2}, {
+                  "g", $CellContext`g}, {"normalize", False}}, Frame -> All]},
+              12 -> {Tooltip -> 
+               Grid[{{"head", $CellContext`beamsplitterOperOper}, {
+                  "reflang", Rational[1, 4] Pi}}, Frame -> All]}, 
+             10 -> {Tooltip -> 
+               Grid[{{"head", $CellContext`spdcCollOperOper}, {"order", 2}, {
+                  "g", $CellContext`g}, {"normalize", False}}, Frame -> All]},
+              5 -> {Tooltip -> Grid[{{"input", 5}}, Frame -> All]}, 
+             26 -> {Tooltip -> Grid[{{"output", 5}}, Frame -> All]}, 
+             14 -> {Tooltip -> 
+               Grid[{{"head", $CellContext`phaseshiftOperOper}, {
+                  "phase", Rational[1, 2] Pi}}, Frame -> All]}, 
+             8 -> {Tooltip -> 
+               Grid[{{"head", $CellContext`phaseshiftOperOper}, {
+                  "phase", Pi}}, Frame -> All]}, 
+             11 -> {Tooltip -> 
+               Grid[{{"head", $CellContext`phaseshiftOperOper}, {
+                  "phase", Rational[1, 2] Pi}}, Frame -> All]}, 
+             3 -> {Tooltip -> Grid[{{"input", 3}}, Frame -> All]}, 
+             13 -> {Tooltip -> 
+               Grid[{{"head", $CellContext`beamsplitterOperOper}, {
+                  "reflang", Rational[1, 4] Pi}}, Frame -> All]}, 
+             27 -> {Tooltip -> Grid[{{"output", 6}}, Frame -> All]}, 
+             19 -> {Tooltip -> 
+               Grid[{{"head", $CellContext`phaseshiftOperOper}, {
+                  "phase", Pi}}, Frame -> All]}, 
+             17 -> {Tooltip -> 
+               Grid[{{"head", $CellContext`phaseshiftOperOper}, {
+                  "phase", Rational[1, 3] Pi}}, Frame -> All]}, 
+             4 -> {Tooltip -> Grid[{{"input", 4}}, Frame -> All]}, 
+             22 -> {Tooltip -> Grid[{{"output", 1}}, Frame -> All]}, 
+             9 -> {Tooltip -> 
+               Grid[{{"head", $CellContext`phaseshiftOperOper}, {
+                  "phase", Rational[2, 3] Pi}}, Frame -> All]}, 
+             20 -> {Tooltip -> 
+               Grid[{{"head", $CellContext`phaseshiftOperOper}, {
+                  "phase", Pi}}, Frame -> All]}, 
+             7 -> {Tooltip -> 
+               Grid[{{"head", $CellContext`phaseshiftOperOper}, {
+                  "phase", Rational[1, 3] Pi}}, Frame -> All]}, 
+             25 -> {Tooltip -> Grid[{{"output", 4}}, Frame -> All]}, 
+             16 -> {Tooltip -> 
+               Grid[{{"head", $CellContext`phaseshiftOperOper}, {
+                  "phase", Rational[1, 2] Pi}}, Frame -> All]}, 
+             15 -> {Tooltip -> 
+               Grid[{{"head", $CellContext`phaseshiftOperOper}, {
+                  "phase", Pi}}, Frame -> All]}}, 
+           VertexLabels -> {
+            23 -> "Output path 2", 19 -> "phaseshift", 26 -> "Output path 5", 
+             9 -> "phaseshift", 22 -> "Output path 1", 17 -> "phaseshift", 14 -> 
+             "phaseshift", 5 -> "Input path 5", 6 -> "Input path 6", 24 -> 
+             "Output path 3", 13 -> "beamsplitter", 16 -> "phaseshift", 4 -> 
+             "Input path 4", 15 -> "phaseshift", 12 -> "beamsplitter", 21 -> 
+             "beamsplitter", 20 -> "phaseshift", 1 -> "Input path 1", 7 -> 
+             "phaseshift", 8 -> "phaseshift", 18 -> "spdcColl", 2 -> 
+             "Input path 2", 10 -> "spdcColl", 3 -> "Input path 3", 27 -> 
+             "Output path 6", 11 -> "phaseshift", 25 -> "Output path 4"}, 
+           VertexSize -> {
+            1 -> 0.2, 4 -> 0.2, 2 -> 0.2, 5 -> 0.2, 26 -> 0.2, 25 -> 0.2, 3 -> 
+             0.2, 24 -> 0.2, 22 -> 0.2, 6 -> 0.2, 27 -> 0.2, 23 -> 0.2}, 
+           VertexStyle -> {
+            5 -> RGBColor[0, 1, 0], 22 -> RGBColor[1, 0, 0], 6 -> 
+             RGBColor[0, 1, 0], 26 -> RGBColor[1, 0, 0], 2 -> 
+             RGBColor[0, 1, 0], 24 -> RGBColor[1, 0, 0], 1 -> 
+             RGBColor[0, 1, 0], 3 -> RGBColor[0, 1, 0], 27 -> 
+             RGBColor[1, 0, 0], 25 -> RGBColor[1, 0, 0], 4 -> 
+             RGBColor[0, 1, 0], 23 -> RGBColor[1, 0, 0]}}]]}, 
+        TagBox[GraphicsGroupBox[{
+           {Hue[0.6, 0.7, 0.5], Opacity[0.7], Arrowheads[
+            0.020198815501499132`], 
+            ArrowBox[{{0.6250100133974481, -4.875030147371931}, {
+             1.6250100133974479`, -4.875030174166828}}, 0.04847715763657805], 
+            ArrowBox[{{2.6250099866025507`, -3.6250100401923437`}, {
+             3.625010013397447, -2.625010066987241}}, 0.04847715763657805], 
+            ArrowBox[{{1.625010066987242, -0.6250100133974481}, {
+             2.625010066987242, -0.6250100401923451}}, 0.04847715763657805], 
+            ArrowBox[{{0.6250100133974481, -2.62500998660255}, {
+             1.625010013397448, -2.6250100133974468`}}, 0.04847715763657805], 
+            ArrowBox[{{1.625010040192345, -1.6250100133974472`}, {
+             2.625010040192345, -1.6250100401923442`}}, 0.04847715763657805], 
+            ArrowBox[{{0.6250100133974481, -6.125050254551519}, {
+             1.6250100133974479`, -6.125050281346416}}, 0.04847715763657805], 
+            ArrowBox[{{2.625010040192345, -1.6250100401923442`}, {
+             3.6250100669872416`, -0.625010066987242}}, 0.04847715763657805], 
+            ArrowBox[{{1.625010013397448, -2.6250100133974468`}, {
+             2.6250100133974477`, -2.6250100401923437`}}, 
+             0.04847715763657805], 
+            ArrowBox[{{1.6250100133974479`, -6.125050281346416}, {
+             2.6250100133974477`, -6.125050308141313}}, 0.04847715763657805], 
+            ArrowBox[{{2.6250100133974477`, -2.6250100401923437`}, {
+             3.625010013397447, -2.625010066987241}}, 0.04847715763657805], 
+            ArrowBox[{{2.625010066987242, -0.6250100401923451}, {
+             3.6250100669872416`, -0.625010066987242}}, 0.04847715763657805], 
+            ArrowBox[{{3.625010013397447, -2.625010066987241}, {
+             4.625010013397447, -2.625010093782138}}, 0.04847715763657805], 
+            ArrowBox[{{3.625010013397447, -2.625010066987241}, {
+             4.62500998660255, -3.6250100937821377`}}, 0.04847715763657805], 
+            ArrowBox[{{3.6250100669872416`, -0.625010066987242}, {
+             4.625010040192344, -1.6250100937821381`}}, 0.04847715763657805], 
+            ArrowBox[{{3.6250100669872416`, -0.625010066987242}, {
+             4.625010066987241, -0.625010093782139}}, 0.04847715763657805], 
+            ArrowBox[{{1.6250100133974479`, -4.875030174166828}, {
+             2.6250100133974477`, -4.875030200961725}}, 0.04847715763657805], 
+            ArrowBox[{{4.625010013397447, -2.625010093782138}, {
+             5.625010066987241, -0.625010120577036}}, 0.04847715763657805], 
+            ArrowBox[{{2.6250100133974477`, -4.875030200961725}, {
+             3.625010013397447, -4.875030227756622}}, 0.04847715763657805], 
+            ArrowBox[{{4.625010040192344, -1.6250100937821381`}, {
+             5.625010040192344, -1.625010120577035}}, 0.04847715763657805], 
+            ArrowBox[{{2.6250100133974477`, -6.125050308141313}, {
+             3.625010013397447, -6.12505033493621}}, 0.04847715763657805], 
+            ArrowBox[{{4.625010066987241, -0.625010093782139}, {
+             5.625010066987241, -0.625010120577036}}, 0.04847715763657805], 
+            ArrowBox[{{4.62500998660255, -3.6250100937821377`}, {
+             5.625009986602549, -3.6250101205770346`}}, 0.04847715763657805], 
+            ArrowBox[{{5.625010066987241, -0.625010120577036}, {
+             6.625010040192343, -1.6250101473719325`}}, 0.04847715763657805], 
+            ArrowBox[{{5.625010066987241, -0.625010120577036}, {
+             6.62501006698724, -0.625010147371933}}, 0.04847715763657805]}, 
+           {Hue[0.6, 0.2, 0.8], EdgeForm[{GrayLevel[0], Opacity[0.7]}], {
+             TagBox[
+              TooltipBox[
+               {RGBColor[0, 1, 0], 
+                DiskBox[{0.6250100133974481, -4.875030147371931}, 
+                 0.09999999999999995]},
+               TagBox[
+                
+                GridBox[{{"\"input\"", "1"}}, AutoDelete -> False, 
+                 GridBoxFrame -> {"Columns" -> {{True}}, "Rows" -> {{True}}}, 
+                 GridBoxItemSize -> {
+                  "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}], 
+                "Grid"]],
+              Annotation[#, 
+               Grid[{{"input", 1}}, Frame -> All], "Tooltip"]& ], 
+             InsetBox["\<\"Input path 1\"\>", 
+              Offset[{2, 2}, {0.7250100133974481, -4.775030147371932}], 
+              ImageScaled[{0, 0}],
+              BaseStyle->"Graphics"]}, {
+             TagBox[
+              TooltipBox[
+               {RGBColor[0, 1, 0], 
+                DiskBox[{2.6250099866025507, -3.6250100401923437}, 
+                 0.09999999999999995]},
+               TagBox[
+                
+                GridBox[{{"\"input\"", "2"}}, AutoDelete -> False, 
+                 GridBoxFrame -> {"Columns" -> {{True}}, "Rows" -> {{True}}}, 
+                 GridBoxItemSize -> {
+                  "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}], 
+                "Grid"]],
+              Annotation[#, 
+               Grid[{{"input", 2}}, Frame -> All], "Tooltip"]& ], 
+             InsetBox["\<\"Input path 2\"\>", 
+              Offset[{2, 2}, {2.725009986602551, -3.5250100401923437}], 
+              ImageScaled[{0, 0}],
+              BaseStyle->"Graphics"]}, {
+             TagBox[
+              TooltipBox[
+               {RGBColor[0, 1, 0], 
+                DiskBox[{1.625010066987242, -0.6250100133974481}, 
+                 0.09999999999999995]},
+               TagBox[
+                
+                GridBox[{{"\"input\"", "3"}}, AutoDelete -> False, 
+                 GridBoxFrame -> {"Columns" -> {{True}}, "Rows" -> {{True}}}, 
+                 GridBoxItemSize -> {
+                  "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}], 
+                "Grid"]],
+              Annotation[#, 
+               Grid[{{"input", 3}}, Frame -> All], "Tooltip"]& ], 
+             InsetBox["\<\"Input path 3\"\>", 
+              Offset[{2, 2}, {1.725010066987242, -0.5250100133974481}], 
+              ImageScaled[{0, 0}],
+              BaseStyle->"Graphics"]}, {
+             TagBox[
+              TooltipBox[
+               {RGBColor[0, 1, 0], 
+                DiskBox[{0.6250100133974481, -2.62500998660255}, 
+                 0.09999999999999995]},
+               TagBox[
+                
+                GridBox[{{"\"input\"", "4"}}, AutoDelete -> False, 
+                 GridBoxFrame -> {"Columns" -> {{True}}, "Rows" -> {{True}}}, 
+                 GridBoxItemSize -> {
+                  "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}], 
+                "Grid"]],
+              Annotation[#, 
+               Grid[{{"input", 4}}, Frame -> All], "Tooltip"]& ], 
+             InsetBox["\<\"Input path 4\"\>", 
+              Offset[{2, 2}, {0.7250100133974481, -2.5250099866025497}], 
+              ImageScaled[{0, 0}],
+              BaseStyle->"Graphics"]}, {
+             TagBox[
+              TooltipBox[
+               {RGBColor[0, 1, 0], 
+                DiskBox[{1.625010040192345, -1.6250100133974472}, 
+                 0.09999999999999995]},
+               TagBox[
+                
+                GridBox[{{"\"input\"", "5"}}, AutoDelete -> False, 
+                 GridBoxFrame -> {"Columns" -> {{True}}, "Rows" -> {{True}}}, 
+                 GridBoxItemSize -> {
+                  "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}], 
+                "Grid"]],
+              Annotation[#, 
+               Grid[{{"input", 5}}, Frame -> All], "Tooltip"]& ], 
+             InsetBox["\<\"Input path 5\"\>", 
+              Offset[{2, 2}, {1.725010040192345, -1.5250100133974474}], 
+              ImageScaled[{0, 0}],
+              BaseStyle->"Graphics"]}, {
+             TagBox[
+              TooltipBox[
+               {RGBColor[0, 1, 0], 
+                DiskBox[{0.6250100133974481, -6.125050254551519}, 
+                 0.09999999999999995]},
+               TagBox[
+                
+                GridBox[{{"\"input\"", "6"}}, AutoDelete -> False, 
+                 GridBoxFrame -> {"Columns" -> {{True}}, "Rows" -> {{True}}}, 
+                 GridBoxItemSize -> {
+                  "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}], 
+                "Grid"]],
+              Annotation[#, 
+               Grid[{{"input", 6}}, Frame -> All], "Tooltip"]& ], 
+             InsetBox["\<\"Input path 6\"\>", 
+              Offset[{2, 2}, {0.7250100133974481, -6.02505025455152}], 
+              ImageScaled[{0, 0}],
+              BaseStyle->"Graphics"]}, {
+             TagBox[
+              
+              TooltipBox[
+               DiskBox[{2.625010040192345, -1.6250100401923442}, 
+                0.04847715763657805],
+               TagBox[
+                GridBox[{{"\"head\"", "phaseshiftOperOper"}, {"\"phase\"", 
+                   FractionBox["\[Pi]", "3"]}}, AutoDelete -> False, 
+                 GridBoxFrame -> {"Columns" -> {{True}}, "Rows" -> {{True}}}, 
+                 GridBoxItemSize -> {
+                  "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}], 
+                "Grid"]],
+              Annotation[#, 
+               
+               Grid[{{"head", $CellContext`phaseshiftOperOper}, {
+                 "phase", Rational[1, 3] Pi}}, Frame -> All], "Tooltip"]& ], 
+             InsetBox["\<\"phaseshift\"\>", 
+              Offset[{2, 2}, {2.673487197828923, -1.576532882555766}], 
+              ImageScaled[{0, 0}],
+              BaseStyle->"Graphics"]}, {
+             TagBox[
+              
+              TooltipBox[
+               DiskBox[{1.625010013397448, -2.6250100133974468}, 
+                0.04847715763657805],
+               TagBox[
+                
+                GridBox[{{"\"head\"", "phaseshiftOperOper"}, {
+                  "\"phase\"", "\[Pi]"}}, AutoDelete -> False, 
+                 GridBoxFrame -> {"Columns" -> {{True}}, "Rows" -> {{True}}}, 
+                 GridBoxItemSize -> {
+                  "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}], 
+                "Grid"]],
+              Annotation[#, 
+               
+               Grid[{{"head", $CellContext`phaseshiftOperOper}, {
+                 "phase", Pi}}, Frame -> All], "Tooltip"]& ], 
+             InsetBox["\<\"phaseshift\"\>", 
+              Offset[{2, 2}, {1.6734871710340262, -2.5765328557608687}], 
+              ImageScaled[{0, 0}],
+              BaseStyle->"Graphics"]}, {
+             TagBox[
+              
+              TooltipBox[
+               DiskBox[{1.6250100133974479, -6.125050281346416}, 
+                0.04847715763657805],
+               TagBox[
+                GridBox[{{"\"head\"", "phaseshiftOperOper"}, {"\"phase\"", 
+                   FractionBox[
+                    RowBox[{"2", " ", "\[Pi]"}], "3"]}}, AutoDelete -> False, 
+                 GridBoxFrame -> {"Columns" -> {{True}}, "Rows" -> {{True}}}, 
+                 GridBoxItemSize -> {
+                  "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}], 
+                "Grid"]],
+              Annotation[#, 
+               
+               Grid[{{"head", $CellContext`phaseshiftOperOper}, {
+                 "phase", Rational[2, 3] Pi}}, Frame -> All], "Tooltip"]& ], 
+             InsetBox["\<\"phaseshift\"\>", 
+              Offset[{2, 2}, {1.673487171034026, -6.076573123709839}], 
+              ImageScaled[{0, 0}],
+              BaseStyle->"Graphics"]}, {
+             TagBox[
+              
+              TooltipBox[
+               DiskBox[{2.6250100133974477, -2.6250100401923437}, 
+                0.04847715763657805],
+               TagBox[
+                
+                GridBox[{{"\"head\"", "spdcCollOperOper"}, {
+                  "\"order\"", "2"}, {"\"g\"", "g"}, {
+                  "\"normalize\"", "False"}}, AutoDelete -> False, 
+                 GridBoxFrame -> {"Columns" -> {{True}}, "Rows" -> {{True}}}, 
+                 GridBoxItemSize -> {
+                  "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}], 
+                "Grid"]],
+              Annotation[#, 
+               
+               Grid[{{"head", $CellContext`spdcCollOperOper}, {"order", 2}, {
+                 "g", $CellContext`g}, {"normalize", False}}, Frame -> All], 
+               "Tooltip"]& ], 
+             InsetBox["\<\"spdcColl\"\>", 
+              Offset[{2, 2}, {2.6734871710340258, -2.5765328825557656}], 
+              ImageScaled[{0, 0}],
+              BaseStyle->"Graphics"]}, {
+             TagBox[
+              
+              TooltipBox[
+               DiskBox[{2.625010066987242, -0.6250100401923451}, 
+                0.04847715763657805],
+               TagBox[
+                GridBox[{{"\"head\"", "phaseshiftOperOper"}, {"\"phase\"", 
+                   FractionBox["\[Pi]", "2"]}}, AutoDelete -> False, 
+                 GridBoxFrame -> {"Columns" -> {{True}}, "Rows" -> {{True}}}, 
+                 GridBoxItemSize -> {
+                  "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}], 
+                "Grid"]],
+              Annotation[#, 
+               
+               Grid[{{"head", $CellContext`phaseshiftOperOper}, {
+                 "phase", Rational[1, 2] Pi}}, Frame -> All], "Tooltip"]& ], 
+             InsetBox["\<\"phaseshift\"\>", 
+              Offset[{2, 2}, {2.67348722462382, -0.5765328825557671}], 
+              ImageScaled[{0, 0}],
+              BaseStyle->"Graphics"]}, {
+             TagBox[
+              
+              TooltipBox[
+               DiskBox[{3.625010013397447, -2.625010066987241}, 
+                0.04847715763657805],
+               TagBox[
+                GridBox[{{"\"head\"", "beamsplitterOperOper"}, {"\"reflang\"", 
+                   FractionBox["\[Pi]", "4"]}}, AutoDelete -> False, 
+                 GridBoxFrame -> {"Columns" -> {{True}}, "Rows" -> {{True}}}, 
+                 GridBoxItemSize -> {
+                  "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}], 
+                "Grid"]],
+              Annotation[#, 
+               
+               Grid[{{"head", $CellContext`beamsplitterOperOper}, {
+                 "reflang", Rational[1, 4] Pi}}, Frame -> All], "Tooltip"]& ],
+              InsetBox["\<\"beamsplitter\"\>", 
+              Offset[{2, 2}, {3.6734871710340253, -2.576532909350663}], 
+              ImageScaled[{0, 0}],
+              BaseStyle->"Graphics"]}, {
+             TagBox[
+              
+              TooltipBox[
+               DiskBox[{3.6250100669872416, -0.625010066987242}, 
+                0.04847715763657805],
+               TagBox[
+                GridBox[{{"\"head\"", "beamsplitterOperOper"}, {"\"reflang\"", 
+                   FractionBox["\[Pi]", "4"]}}, AutoDelete -> False, 
+                 GridBoxFrame -> {"Columns" -> {{True}}, "Rows" -> {{True}}}, 
+                 GridBoxItemSize -> {
+                  "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}], 
+                "Grid"]],
+              Annotation[#, 
+               
+               Grid[{{"head", $CellContext`beamsplitterOperOper}, {
+                 "reflang", Rational[1, 4] Pi}}, Frame -> All], "Tooltip"]& ],
+              InsetBox["\<\"beamsplitter\"\>", 
+              Offset[{2, 2}, {3.6734872246238197, -0.576532909350664}], 
+              ImageScaled[{0, 0}],
+              BaseStyle->"Graphics"]}, {
+             TagBox[
+              
+              TooltipBox[
+               DiskBox[{1.6250100133974479, -4.875030174166828}, 
+                0.04847715763657805],
+               TagBox[
+                GridBox[{{"\"head\"", "phaseshiftOperOper"}, {"\"phase\"", 
+                   FractionBox["\[Pi]", "2"]}}, AutoDelete -> False, 
+                 GridBoxFrame -> {"Columns" -> {{True}}, "Rows" -> {{True}}}, 
+                 GridBoxItemSize -> {
+                  "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}], 
+                "Grid"]],
+              Annotation[#, 
+               Grid[{{"head", $CellContext`phaseshiftOperOper}, {
+                 "phase", Rational[1, 2] Pi}}, Frame -> All], "Tooltip"]& ], 
+             InsetBox["\<\"phaseshift\"\>", 
+              Offset[{2, 2}, {1.673487171034026, -4.826553016530251}], 
+              ImageScaled[{0, 0}],
+              BaseStyle->"Graphics"]}, {
+             TagBox[
+              
+              TooltipBox[
+               DiskBox[{4.625010013397447, -2.625010093782138}, 
+                0.04847715763657805],
+               TagBox[
+                
+                GridBox[{{"\"head\"", "phaseshiftOperOper"}, {
+                  "\"phase\"", "\[Pi]"}}, AutoDelete -> False, 
+                 GridBoxFrame -> {"Columns" -> {{True}}, "Rows" -> {{True}}}, 
+                 GridBoxItemSize -> {
+                  "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}], 
+                "Grid"]],
+              Annotation[#, 
+               
+               Grid[{{"head", $CellContext`phaseshiftOperOper}, {
+                 "phase", Pi}}, Frame -> All], "Tooltip"]& ], 
+             InsetBox["\<\"phaseshift\"\>", 
+              Offset[{2, 2}, {4.673487171034025, -2.57653293614556}], 
+              ImageScaled[{0, 0}],
+              BaseStyle->"Graphics"]}, {
+             TagBox[
+              
+              TooltipBox[
+               DiskBox[{2.6250100133974477, -4.875030200961725}, 
+                0.04847715763657805],
+               TagBox[
+                GridBox[{{"\"head\"", "phaseshiftOperOper"}, {"\"phase\"", 
+                   FractionBox["\[Pi]", "2"]}}, AutoDelete -> False, 
+                 GridBoxFrame -> {"Columns" -> {{True}}, "Rows" -> {{True}}}, 
+                 GridBoxItemSize -> {
+                  "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}], 
+                "Grid"]],
+              Annotation[#, 
+               
+               Grid[{{"head", $CellContext`phaseshiftOperOper}, {
+                 "phase", Rational[1, 2] Pi}}, Frame -> All], "Tooltip"]& ], 
+             InsetBox["\<\"phaseshift\"\>", 
+              Offset[{2, 2}, {2.6734871710340258, -4.826553043325148}], 
+              ImageScaled[{0, 0}],
+              BaseStyle->"Graphics"]}, {
+             TagBox[
+              
+              TooltipBox[
+               DiskBox[{4.625010040192344, -1.6250100937821381}, 
+                0.04847715763657805],
+               TagBox[
+                GridBox[{{"\"head\"", "phaseshiftOperOper"}, {"\"phase\"", 
+                   FractionBox["\[Pi]", "3"]}}, AutoDelete -> False, 
+                 GridBoxFrame -> {"Columns" -> {{True}}, "Rows" -> {{True}}}, 
+                 GridBoxItemSize -> {
+                  "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}], 
+                "Grid"]],
+              Annotation[#, 
+               
+               Grid[{{"head", $CellContext`phaseshiftOperOper}, {
+                 "phase", Rational[1, 3] Pi}}, Frame -> All], "Tooltip"]& ], 
+             InsetBox["\<\"phaseshift\"\>", 
+              Offset[{2, 2}, {4.673487197828922, -1.57653293614556}], 
+              ImageScaled[{0, 0}],
+              BaseStyle->"Graphics"]}, {
+             TagBox[
+              
+              TooltipBox[
+               DiskBox[{2.6250100133974477, -6.125050308141313}, 
+                0.04847715763657805],
+               TagBox[
+                
+                GridBox[{{"\"head\"", "spdcCollOperOper"}, {
+                  "\"order\"", "2"}, {"\"g\"", "g"}, {
+                  "\"normalize\"", "False"}}, AutoDelete -> False, 
+                 GridBoxFrame -> {"Columns" -> {{True}}, "Rows" -> {{True}}}, 
+                 GridBoxItemSize -> {
+                  "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}], 
+                "Grid"]],
+              Annotation[#, 
+               
+               Grid[{{"head", $CellContext`spdcCollOperOper}, {"order", 2}, {
+                 "g", $CellContext`g}, {"normalize", False}}, Frame -> All], 
+               "Tooltip"]& ], 
+             InsetBox["\<\"spdcColl\"\>", 
+              Offset[{2, 2}, {2.6734871710340258, -6.076573150504736}], 
+              ImageScaled[{0, 0}],
+              BaseStyle->"Graphics"]}, {
+             TagBox[
+              
+              TooltipBox[
+               DiskBox[{4.625010066987241, -0.625010093782139}, 
+                0.04847715763657805],
+               TagBox[
+                
+                GridBox[{{"\"head\"", "phaseshiftOperOper"}, {
+                  "\"phase\"", "\[Pi]"}}, AutoDelete -> False, 
+                 GridBoxFrame -> {"Columns" -> {{True}}, "Rows" -> {{True}}}, 
+                 GridBoxItemSize -> {
+                  "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}], 
+                "Grid"]],
+              Annotation[#, 
+               
+               Grid[{{"head", $CellContext`phaseshiftOperOper}, {
+                 "phase", Pi}}, Frame -> All], "Tooltip"]& ], 
+             InsetBox["\<\"phaseshift\"\>", 
+              Offset[{2, 2}, {4.673487224623819, -0.576532936145561}], 
+              ImageScaled[{0, 0}],
+              BaseStyle->"Graphics"]}, {
+             TagBox[
+              
+              TooltipBox[
+               DiskBox[{4.62500998660255, -3.6250100937821377}, 
+                0.04847715763657805],
+               TagBox[
+                
+                GridBox[{{"\"head\"", "phaseshiftOperOper"}, {
+                  "\"phase\"", "\[Pi]"}}, AutoDelete -> False, 
+                 GridBoxFrame -> {"Columns" -> {{True}}, "Rows" -> {{True}}}, 
+                 GridBoxItemSize -> {
+                  "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}], 
+                "Grid"]],
+              Annotation[#, 
+               
+               Grid[{{"head", $CellContext`phaseshiftOperOper}, {
+                 "phase", Pi}}, Frame -> All], "Tooltip"]& ], 
+             InsetBox["\<\"phaseshift\"\>", 
+              Offset[{2, 2}, {4.673487144239128, -3.5765329361455596}], 
+              ImageScaled[{0, 0}],
+              BaseStyle->"Graphics"]}, {
+             TagBox[
+              
+              TooltipBox[
+               DiskBox[{5.625010066987241, -0.625010120577036}, 
+                0.04847715763657805],
+               TagBox[
+                GridBox[{{"\"head\"", "beamsplitterOperOper"}, {"\"reflang\"", 
+                   FractionBox["\[Pi]", "4"]}}, AutoDelete -> False, 
+                 GridBoxFrame -> {"Columns" -> {{True}}, "Rows" -> {{True}}}, 
+                 GridBoxItemSize -> {
+                  "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}], 
+                "Grid"]],
+              Annotation[#, 
+               
+               Grid[{{"head", $CellContext`beamsplitterOperOper}, {
+                 "reflang", Rational[1, 4] Pi}}, Frame -> All], "Tooltip"]& ],
+              InsetBox["\<\"beamsplitter\"\>", 
+              Offset[{2, 2}, {5.673487224623819, -0.576532962940458}], 
+              ImageScaled[{0, 0}],
+              BaseStyle->"Graphics"]}, {
+             TagBox[
+              TooltipBox[
+               {RGBColor[1, 0, 0], 
+                DiskBox[{3.625010013397447, -4.875030227756622}, 
+                 0.09999999999999995]},
+               TagBox[
+                
+                GridBox[{{"\"output\"", "1"}}, AutoDelete -> False, 
+                 GridBoxFrame -> {"Columns" -> {{True}}, "Rows" -> {{True}}}, 
+                 GridBoxItemSize -> {
+                  "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}], 
+                "Grid"]],
+              Annotation[#, 
+               Grid[{{"output", 1}}, Frame -> All], "Tooltip"]& ], 
+             InsetBox["\<\"Output path 1\"\>", 
+              Offset[{2, 2}, {3.7250100133974473, -4.775030227756623}], 
+              ImageScaled[{0, 0}],
+              BaseStyle->"Graphics"]}, {
+             TagBox[
+              TooltipBox[
+               {RGBColor[1, 0, 0], 
+                DiskBox[{6.625010040192343, -1.6250101473719325}, 
+                 0.09999999999999995]},
+               TagBox[
+                
+                GridBox[{{"\"output\"", "2"}}, AutoDelete -> False, 
+                 GridBoxFrame -> {"Columns" -> {{True}}, "Rows" -> {{True}}}, 
+                 GridBoxItemSize -> {
+                  "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}], 
+                "Grid"]],
+              Annotation[#, 
+               Grid[{{"output", 2}}, Frame -> All], "Tooltip"]& ], 
+             InsetBox["\<\"Output path 2\"\>", 
+              Offset[{2, 2}, {6.725010040192343, -1.5250101473719326}], 
+              ImageScaled[{0, 0}],
+              BaseStyle->"Graphics"]}, {
+             TagBox[
+              TooltipBox[
+               {RGBColor[1, 0, 0], 
+                DiskBox[{6.62501006698724, -0.625010147371933}, 
+                 0.09999999999999995]},
+               TagBox[
+                
+                GridBox[{{"\"output\"", "3"}}, AutoDelete -> False, 
+                 GridBoxFrame -> {"Columns" -> {{True}}, "Rows" -> {{True}}}, 
+                 GridBoxItemSize -> {
+                  "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}], 
+                "Grid"]],
+              Annotation[#, 
+               Grid[{{"output", 3}}, Frame -> All], "Tooltip"]& ], 
+             InsetBox["\<\"Output path 3\"\>", 
+              Offset[{2, 2}, {6.72501006698724, -0.525010147371933}], 
+              ImageScaled[{0, 0}],
+              BaseStyle->"Graphics"]}, {
+             TagBox[
+              TooltipBox[
+               {RGBColor[1, 0, 0], 
+                DiskBox[{5.625009986602549, -3.6250101205770346}, 
+                 0.09999999999999995]},
+               TagBox[
+                
+                GridBox[{{"\"output\"", "4"}}, AutoDelete -> False, 
+                 GridBoxFrame -> {"Columns" -> {{True}}, "Rows" -> {{True}}}, 
+                 GridBoxItemSize -> {
+                  "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}], 
+                "Grid"]],
+              Annotation[#, 
+               Grid[{{"output", 4}}, Frame -> All], "Tooltip"]& ], 
+             InsetBox["\<\"Output path 4\"\>", 
+              Offset[{2, 2}, {5.725009986602549, -3.5250101205770346}], 
+              ImageScaled[{0, 0}],
+              BaseStyle->"Graphics"]}, {
+             TagBox[
+              TooltipBox[
+               {RGBColor[1, 0, 0], 
+                DiskBox[{5.625010040192344, -1.625010120577035}, 
+                 0.09999999999999995]},
+               TagBox[
+                
+                GridBox[{{"\"output\"", "5"}}, AutoDelete -> False, 
+                 GridBoxFrame -> {"Columns" -> {{True}}, "Rows" -> {{True}}}, 
+                 GridBoxItemSize -> {
+                  "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}], 
+                "Grid"]],
+              Annotation[#, 
+               Grid[{{"output", 5}}, Frame -> All], "Tooltip"]& ], 
+             InsetBox["\<\"Output path 5\"\>", 
+              Offset[{2, 2}, {5.725010040192344, -1.5250101205770352}], 
+              ImageScaled[{0, 0}],
+              BaseStyle->"Graphics"]}, {
+             TagBox[
+              TooltipBox[
+               {RGBColor[1, 0, 0], 
+                DiskBox[{3.625010013397447, -6.12505033493621}, 
+                 0.09999999999999995]},
+               TagBox[
+                
+                GridBox[{{"\"output\"", "6"}}, AutoDelete -> False, 
+                 GridBoxFrame -> {"Columns" -> {{True}}, "Rows" -> {{True}}}, 
+                 GridBoxItemSize -> {
+                  "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}], 
+                "Grid"]],
+              Annotation[#, 
+               Grid[{{"output", 6}}, Frame -> All], "Tooltip"]& ], 
+             InsetBox["\<\"Output path 6\"\>", 
+              Offset[{2, 2}, {3.7250100133974473, -6.025050334936211}], 
+              ImageScaled[{0, 0}],
+              BaseStyle->"Graphics"]}}}],
+         MouseAppearanceTag["NetworkGraphics"]],
+        AllowKernelInitialization->False]],
+      DefaultBaseStyle->{
+       "NetworkGraphics", FrontEnd`GraphicsHighlightColor -> 
+        Hue[0.8, 1., 0.6]},
+      FormatType->TraditionalForm,
+      FrameTicks->None,
+      ImageSize->Large]},
+    {"\<\"terms satisfying criteria\"\>", 
+     ItemBox[
+      RowBox[{"{", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"{", 
+          FractionBox[
+           RowBox[{
+            SuperscriptBox[
+             RowBox[{"(", 
+              RowBox[{"-", "1"}], ")"}], 
+             RowBox[{"5", "/", "6"}]], " ", "g", " ", "\[Beta]", " ", 
+            RowBox[{"ad", "[", "2", "]"}], " ", 
+            RowBox[{"ad", "[", "3", "]"}], " ", 
+            SuperscriptBox[
+             RowBox[{"ad", "[", "6", "]"}], "2"]}], 
+           RowBox[{"2", " ", 
+            SqrtBox["2"]}]], "}"}], ",", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"-", 
+            FractionBox["1", "2"]}], " ", 
+           SuperscriptBox[
+            RowBox[{"(", 
+             RowBox[{"-", "1"}], ")"}], 
+            RowBox[{"1", "/", "3"}]], " ", "g", " ", "\[Alpha]", " ", 
+           RowBox[{"ad", "[", "2", "]"}], " ", 
+           RowBox[{"ad", "[", "4", "]"}], " ", 
+           SuperscriptBox[
+            RowBox[{"ad", "[", "6", "]"}], "2"]}], "}"}]}], "}"}], "}"}],
+      Background->RGBColor[0.88, 1, 0.88],
+      StripOnInput->False]},
+    {"\<\"unwanted parts in 1st order\"\>", 
+     ItemBox[
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"{", 
+         RowBox[{"{", "}"}], "}"}], ",", 
+        RowBox[{"{", 
+         RowBox[{"{", "}"}], "}"}], ",", 
+        RowBox[{"{", 
+         RowBox[{"{", "}"}], "}"}], ",", 
+        RowBox[{"{", 
+         RowBox[{"{", "}"}], "}"}]}], "}"}],
+      Background->RGBColor[1, 0.9, 0.8],
+      StripOnInput->False]},
+    {"\<\"state complexity estimate\"\>", "119"},
+    {"\<\"coincidences triggering paths\"\>", 
+     RowBox[{"{", "}"}]},
+    {"\<\"input state\"\>", 
+     RowBox[{
+      RowBox[{"\[Alpha]", " ", 
+       RowBox[{"ad", "[", "2", "]"}], " ", 
+       RowBox[{"ad", "[", "3", "]"}]}], "+", 
+      RowBox[{"\[Beta]", " ", 
+       RowBox[{"ad", "[", "2", "]"}], " ", 
+       RowBox[{"ad", "[", "4", "]"}]}]}]},
+    {"\<\"reference patterns\"\>", 
+     RowBox[{"{", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"\[Beta]", " ", 
+         RowBox[{"ad", "[", "2", "]"}], " ", 
+         RowBox[{"ad", "[", "3", "]"}], " ", 
+         RowBox[{"_", "?", 
+          RowBox[{"(", 
+           RowBox[{"FreeQ", "[", 
+            RowBox[{
+             RowBox[{"ad", "[", "1", "]"}], "|", 
+             RowBox[{"ad", "[", "4", "]"}]}], "]"}], ")"}]}]}], ",", 
+        RowBox[{"\[Alpha]", " ", 
+         RowBox[{"ad", "[", "2", "]"}], " ", 
+         RowBox[{"ad", "[", "4", "]"}], " ", 
+         RowBox[{"_", "?", 
+          RowBox[{"(", 
+           RowBox[{"FreeQ", "[", 
+            RowBox[{
+             RowBox[{"ad", "[", "1", "]"}], "|", 
+             RowBox[{"ad", "[", "3", "]"}]}], "]"}], ")"}]}]}]}], "}"}], 
+      "}"}]},
+    {"\<\"highlighted first order\"\>", 
+     TagBox[
+      FormBox[
+       RowBox[{
+        RowBox[{
+         TemplateBox[{TemplateBox[{
+             RowBox[{"0", ",", "0", ",", "0", ",", "0", ",", "0", ",", "0"}]},
+             "Ket"],FrameStyle -> None},
+          "Highlighted"], " ", 
+         FrameBox[
+          RowBox[{
+           FractionBox["1", "2"], " ", "\[ImaginaryI]", " ", 
+           RowBox[{"(", 
+            RowBox[{"\[Alpha]", "-", 
+             RowBox[{
+              SqrtBox["2"], " ", "\[Beta]"}]}], ")"}], " ", 
+           TemplateBox[{"g"},
+            "Conjugate"]}],
+          StripOnInput->False]}], "+", 
+        RowBox[{
+         TemplateBox[{TemplateBox[{
+             RowBox[{"0", ",", "0", ",", "0", ",", "2", ",", "0", ",", "2"}]},
+             "Ket"],FrameStyle -> None},
+          "Highlighted"], " ", 
+         FrameBox[
+          RowBox[{
+           FractionBox["1", "2"], " ", 
+           SuperscriptBox[
+            RowBox[{"(", 
+             RowBox[{"-", "1"}], ")"}], 
+            RowBox[{"5", "/", "6"}]], " ", "g", " ", 
+           RowBox[{"(", 
+            RowBox[{"\[Alpha]", "-", 
+             RowBox[{
+              SqrtBox["2"], " ", "\[Beta]"}]}], ")"}]}],
+          StripOnInput->False]}], "+", 
+        RowBox[{
+         TemplateBox[{TemplateBox[{
+             RowBox[{"0", ",", "0", ",", "0", ",", "4", ",", "0", ",", "0"}]},
+             "Ket"],FrameStyle -> None},
+          "Highlighted"], " ", 
+         FrameBox[
+          RowBox[{"\[ImaginaryI]", " ", 
+           SqrtBox[
+            FractionBox["3", "2"]], " ", "g", " ", 
+           RowBox[{"(", 
+            RowBox[{
+             RowBox[{
+              SqrtBox["2"], " ", "\[Beta]"}], "-", "\[Alpha]"}], ")"}]}],
+          StripOnInput->False]}], "+", 
+        RowBox[{
+         TemplateBox[{TemplateBox[{
+             RowBox[{"0", ",", "2", ",", "0", ",", "0", ",", "0", ",", "2"}]},
+             "Ket"],FrameStyle -> None},
+          "Highlighted"], " ", 
+         FrameBox[
+          RowBox[{
+           RowBox[{"-", 
+            FractionBox["1", "2"]}], " ", 
+           SuperscriptBox[
+            RowBox[{"(", 
+             RowBox[{"-", "1"}], ")"}], 
+            RowBox[{"5", "/", "6"}]], " ", "g", " ", 
+           RowBox[{"(", 
+            RowBox[{"\[Alpha]", "+", 
+             RowBox[{
+              SqrtBox["2"], " ", "\[Beta]"}]}], ")"}]}],
+          StripOnInput->False]}], "+", 
+        RowBox[{
+         TemplateBox[{TemplateBox[{
+             RowBox[{"0", ",", "2", ",", "0", ",", "2", ",", "0", ",", "0"}]},
+             "Ket"],FrameStyle -> None},
+          "Highlighted"], " ", 
+         FrameBox[
+          RowBox[{
+           FractionBox["1", "2"], " ", "\[ImaginaryI]", " ", "g", " ", 
+           RowBox[{"(", 
+            RowBox[{"\[Alpha]", "+", 
+             RowBox[{
+              SqrtBox["2"], " ", "\[Beta]"}]}], ")"}]}],
+          StripOnInput->False]}], "+", 
+        RowBox[{
+         FrameBox[
+          RowBox[{
+           RowBox[{"-", 
+            FractionBox["1", "2"]}], " ", "\[ImaginaryI]", " ", "\[Alpha]", 
+           " ", "g"}],
+          StripOnInput->False], " ", 
+         TemplateBox[{TemplateBox[{
+             RowBox[{"0", ",", "0", ",", "0", ",", "0", ",", "2", ",", "2"}]},
+             "Ket"],FrameStyle -> None},
+          "Highlighted"]}], "+", 
+        RowBox[{
+         FrameBox[
+          RowBox[{
+           FractionBox["1", "2"], " ", 
+           RadicalBox[
+            RowBox[{"-", "1"}], "6"], " ", "\[Alpha]", " ", "g"}],
+          StripOnInput->False], " ", 
+         TemplateBox[{TemplateBox[{
+             RowBox[{"0", ",", "0", ",", "0", ",", "2", ",", "2", ",", "0"}]},
+             "Ket"],FrameStyle -> None},
+          "Highlighted"]}], "+", 
+        RowBox[{
+         FrameBox[
+          RowBox[{"-", 
+           FractionBox[
+            RowBox[{
+             RadicalBox[
+              RowBox[{"-", "1"}], "6"], " ", "\[Alpha]", " ", "g"}], 
+            SqrtBox["2"]]}],
+          StripOnInput->False], " ", 
+         TemplateBox[{TemplateBox[{
+             RowBox[{"0", ",", "0", ",", "1", ",", "0", ",", "1", ",", "2"}]},
+             "Ket"],FrameStyle -> None},
+          "Highlighted"]}], "+", 
+        RowBox[{
+         FrameBox[
+          RowBox[{"-", 
+           FractionBox[
+            RowBox[{
+             SuperscriptBox[
+              RowBox[{"(", 
+               RowBox[{"-", "1"}], ")"}], 
+              RowBox[{"5", "/", "6"}]], " ", "\[Alpha]", " ", "g"}], 
+            SqrtBox["2"]]}],
+          StripOnInput->False], " ", 
+         TemplateBox[{TemplateBox[{
+             RowBox[{"0", ",", "0", ",", "1", ",", "2", ",", "1", ",", "0"}]},
+             "Ket"],FrameStyle -> None},
+          "Highlighted"]}], "+", 
+        RowBox[{
+         FrameBox[
+          RowBox[{
+           FractionBox["1", "2"], " ", 
+           SuperscriptBox[
+            RowBox[{"(", 
+             RowBox[{"-", "1"}], ")"}], 
+            RowBox[{"5", "/", "6"}]], " ", "\[Alpha]", " ", "g"}],
+          StripOnInput->False], " ", 
+         TemplateBox[{TemplateBox[{
+             RowBox[{"0", ",", "0", ",", "2", ",", "0", ",", "0", ",", "2"}]},
+             "Ket"],FrameStyle -> None},
+          "Highlighted"]}], "+", 
+        RowBox[{
+         FrameBox[
+          RowBox[{
+           RowBox[{"-", 
+            FractionBox["1", "2"]}], " ", "\[ImaginaryI]", " ", "\[Alpha]", 
+           " ", "g"}],
+          StripOnInput->False], " ", 
+         TemplateBox[{TemplateBox[{
+             RowBox[{"0", ",", "0", ",", "2", ",", "2", ",", "0", ",", "0"}]},
+             "Ket"],FrameStyle -> None},
+          "Highlighted"]}], "+", 
+        RowBox[{
+         FrameBox[
+          RowBox[{"-", 
+           FractionBox[
+            RowBox[{
+             RadicalBox[
+              RowBox[{"-", "1"}], "3"], " ", "\[Alpha]", " ", "g"}], 
+            SqrtBox["2"]]}],
+          StripOnInput->False], " ", 
+         TemplateBox[{TemplateBox[{
+             RowBox[{"0", ",", "1", ",", "0", ",", "1", ",", "0", ",", "2"}]},
+             "Ket"],FrameStyle -> None},
+          "Highlighted"]}], "+", 
+        RowBox[{
+         FrameBox[
+          RowBox[{
+           SqrtBox[
+            FractionBox["3", "2"]], " ", "\[Alpha]", " ", "g"}],
+          StripOnInput->False], " ", 
+         TemplateBox[{TemplateBox[{
+             RowBox[{"0", ",", "1", ",", "0", ",", "3", ",", "0", ",", "0"}]},
+             "Ket"],FrameStyle -> None},
+          "Highlighted"]}], "+", 
+        RowBox[{
+         FrameBox[
+          RowBox[{
+           RowBox[{"-", 
+            FractionBox["1", "2"]}], " ", 
+           SuperscriptBox[
+            RowBox[{"(", 
+             RowBox[{"-", "1"}], ")"}], 
+            RowBox[{"2", "/", "3"}]], " ", "\[Beta]", " ", "g"}],
+          StripOnInput->False], " ", 
+         TemplateBox[{TemplateBox[{
+             RowBox[{"0", ",", "0", ",", "0", ",", "1", ",", "1", ",", "2"}]},
+             "Ket"],FrameStyle -> None},
+          "Highlighted"]}], "+", 
+        RowBox[{
+         FrameBox[
+          RowBox[{
+           FractionBox["1", "2"], " ", 
+           RadicalBox[
+            RowBox[{"-", "1"}], "3"], " ", 
+           SqrtBox["3"], " ", "\[Beta]", " ", "g"}],
+          StripOnInput->False], " ", 
+         TemplateBox[{TemplateBox[{
+             RowBox[{"0", ",", "0", ",", "0", ",", "3", ",", "1", ",", "0"}]},
+             "Ket"],FrameStyle -> None},
+          "Highlighted"]}], "+", 
+        RowBox[{
+         FrameBox[
+          RowBox[{
+           RowBox[{"-", 
+            FractionBox["1", "2"]}], " ", 
+           RadicalBox[
+            RowBox[{"-", "1"}], "3"], " ", "\[Beta]", " ", "g"}],
+          StripOnInput->False], " ", 
+         TemplateBox[{TemplateBox[{
+             RowBox[{"0", ",", "0", ",", "1", ",", "1", ",", "0", ",", "2"}]},
+             "Ket"],FrameStyle -> None},
+          "Highlighted"]}], "+", 
+        RowBox[{
+         FrameBox[
+          RowBox[{
+           FractionBox["1", "2"], " ", 
+           SqrtBox["3"], " ", "\[Beta]", " ", "g"}],
+          StripOnInput->False], " ", 
+         TemplateBox[{TemplateBox[{
+             RowBox[{"0", ",", "0", ",", "1", ",", "3", ",", "0", ",", "0"}]},
+             "Ket"],FrameStyle -> None},
+          "Highlighted"]}], "+", 
+        RowBox[{
+         FrameBox[
+          RowBox[{
+           RowBox[{"-", 
+            FractionBox["1", "2"]}], " ", 
+           RadicalBox[
+            RowBox[{"-", "1"}], "6"], " ", "\[Beta]", " ", "g"}],
+          StripOnInput->False], " ", 
+         TemplateBox[{TemplateBox[{
+             RowBox[{"0", ",", "1", ",", "0", ",", "0", ",", "1", ",", "2"}]},
+             "Ket"],FrameStyle -> None},
+          "Highlighted"]}], "+", 
+        RowBox[{
+         FrameBox[
+          RowBox[{
+           RowBox[{"-", 
+            FractionBox["1", "2"]}], " ", 
+           SuperscriptBox[
+            RowBox[{"(", 
+             RowBox[{"-", "1"}], ")"}], 
+            RowBox[{"5", "/", "6"}]], " ", "\[Beta]", " ", "g"}],
+          StripOnInput->False], " ", 
+         TemplateBox[{TemplateBox[{
+             RowBox[{"0", ",", "1", ",", "0", ",", "2", ",", "1", ",", "0"}]},
+             "Ket"],FrameStyle -> None},
+          "Highlighted"]}], "+", 
+        RowBox[{
+         FrameBox[
+          RowBox[{
+           FractionBox["1", "2"], " ", 
+           SuperscriptBox[
+            RowBox[{"(", 
+             RowBox[{"-", "1"}], ")"}], 
+            RowBox[{"5", "/", "6"}]], " ", "\[Beta]", " ", "g"}],
+          StripOnInput->False], " ", 
+         TemplateBox[{TemplateBox[{
+             RowBox[{"0", ",", "1", ",", "1", ",", "0", ",", "0", ",", "2"}]},
+             "Ket"],FrameStyle -> None},
+          "Highlighted"]}], "+", 
+        RowBox[{
+         FrameBox[
+          RowBox[{
+           RowBox[{"-", 
+            FractionBox["1", "2"]}], " ", "\[ImaginaryI]", " ", "\[Beta]", 
+           " ", "g"}],
+          StripOnInput->False], " ", 
+         TemplateBox[{TemplateBox[{
+             RowBox[{"0", ",", "1", ",", "1", ",", "2", ",", "0", ",", "0"}]},
+             "Ket"],FrameStyle -> None},
+          "Highlighted"]}]}],
+       TraditionalForm],
+      TraditionalForm,
+      Editable->True]},
+    {"\<\"zero order\"\>", 
+     TagBox[
+      FormBox[
+       RowBox[{
+        RowBox[{
+         FrameBox[
+          RowBox[{
+           RowBox[{"-", 
+            FractionBox["1", "4"]}], " ", "\[ImaginaryI]", " ", 
+           RowBox[{"(", 
+            RowBox[{
+             RowBox[{
+              SqrtBox["2"], " ", "\[Alpha]"}], "-", 
+             RowBox[{"2", " ", "\[Beta]"}]}], ")"}]}],
+          StripOnInput->False], " ", 
+         TemplateBox[{TemplateBox[{
+             RowBox[{"0", ",", "0", ",", "0", ",", "2", ",", "0", ",", "0"}]},
+             "Ket"],FrameStyle -> None},
+          "Highlighted"]}], "+", 
+        RowBox[{
+         FrameBox[
+          FractionBox[
+           RowBox[{"\[ImaginaryI]", " ", 
+            RowBox[{"(", 
+             RowBox[{"\[Alpha]", "+", 
+              RowBox[{
+               SqrtBox["2"], " ", "\[Beta]"}]}], ")"}]}], 
+           RowBox[{"2", " ", 
+            SqrtBox["2"]}]],
+          StripOnInput->False], " ", 
+         TemplateBox[{TemplateBox[{
+             RowBox[{"0", ",", "2", ",", "0", ",", "0", ",", "0", ",", "0"}]},
+             "Ket"],FrameStyle -> None},
+          "Highlighted"]}], "+", 
+        RowBox[{
+         FrameBox[
+          FractionBox[
+           RowBox[{
+            RadicalBox[
+             RowBox[{"-", "1"}], "6"], " ", "\[Alpha]"}], 
+           RowBox[{"2", " ", 
+            SqrtBox["2"]}]],
+          StripOnInput->False], " ", 
+         TemplateBox[{TemplateBox[{
+             RowBox[{"0", ",", "0", ",", "0", ",", "0", ",", "2", ",", "0"}]},
+             "Ket"],FrameStyle -> None},
+          "Highlighted"]}], "+", 
+        RowBox[{
+         FrameBox[
+          RowBox[{
+           RowBox[{"-", 
+            FractionBox["1", "2"]}], " ", 
+           SuperscriptBox[
+            RowBox[{"(", 
+             RowBox[{"-", "1"}], ")"}], 
+            RowBox[{"5", "/", "6"}]], " ", "\[Alpha]"}],
+          StripOnInput->False], " ", 
+         TemplateBox[{TemplateBox[{
+             RowBox[{"0", ",", "0", ",", "1", ",", "0", ",", "1", ",", "0"}]},
+             "Ket"],FrameStyle -> None},
+          "Highlighted"]}], "+", 
+        RowBox[{
+         FrameBox[
+          RowBox[{"-", 
+           FractionBox[
+            RowBox[{"\[ImaginaryI]", " ", "\[Alpha]"}], 
+            RowBox[{"2", " ", 
+             SqrtBox["2"]}]]}],
+          StripOnInput->False], " ", 
+         TemplateBox[{TemplateBox[{
+             RowBox[{"0", ",", "0", ",", "2", ",", "0", ",", "0", ",", "0"}]},
+             "Ket"],FrameStyle -> None},
+          "Highlighted"]}], "+", 
+        RowBox[{
+         FrameBox[
+          FractionBox["\[Alpha]", "2"],
+          StripOnInput->False], " ", 
+         TemplateBox[{TemplateBox[{
+             RowBox[{"0", ",", "1", ",", "0", ",", "1", ",", "0", ",", "0"}]},
+             "Ket"],FrameStyle -> None},
+          "Highlighted"]}], "+", 
+        RowBox[{
+         FrameBox[
+          FractionBox[
+           RowBox[{
+            RadicalBox[
+             RowBox[{"-", "1"}], "3"], " ", "\[Beta]"}], 
+           RowBox[{"2", " ", 
+            SqrtBox["2"]}]],
+          StripOnInput->False], " ", 
+         TemplateBox[{TemplateBox[{
+             RowBox[{"0", ",", "0", ",", "0", ",", "1", ",", "1", ",", "0"}]},
+             "Ket"],FrameStyle -> None},
+          "Highlighted"]}], "+", 
+        RowBox[{
+         FrameBox[
+          FractionBox["\[Beta]", 
+           RowBox[{"2", " ", 
+            SqrtBox["2"]}]],
+          StripOnInput->False], " ", 
+         TemplateBox[{TemplateBox[{
+             RowBox[{"0", ",", "0", ",", "1", ",", "1", ",", "0", ",", "0"}]},
+             "Ket"],FrameStyle -> None},
+          "Highlighted"]}], "+", 
+        RowBox[{
+         FrameBox[
+          RowBox[{"-", 
+           FractionBox[
+            RowBox[{
+             SuperscriptBox[
+              RowBox[{"(", 
+               RowBox[{"-", "1"}], ")"}], 
+              RowBox[{"5", "/", "6"}]], " ", "\[Beta]"}], 
+            RowBox[{"2", " ", 
+             SqrtBox["2"]}]]}],
+          StripOnInput->False], " ", 
+         TemplateBox[{TemplateBox[{
+             RowBox[{"0", ",", "1", ",", "0", ",", "0", ",", "1", ",", "0"}]},
+             "Ket"],FrameStyle -> None},
+          "Highlighted"]}], "+", 
+        RowBox[{
+         FrameBox[
+          RowBox[{"-", 
+           FractionBox[
+            RowBox[{"\[ImaginaryI]", " ", "\[Beta]"}], 
+            RowBox[{"2", " ", 
+             SqrtBox["2"]}]]}],
+          StripOnInput->False], " ", 
+         TemplateBox[{TemplateBox[{
+             RowBox[{"0", ",", "1", ",", "1", ",", "0", ",", "0", ",", "0"}]},
+             "Ket"],FrameStyle -> None},
+          "Highlighted"]}]}],
+       TraditionalForm],
+      TraditionalForm,
+      Editable->True]},
+    {"\<\"unwanted patterns in 1st order\"\>", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"__", " ", 
+         TemplateBox[{RowBox[{
+             RowBox[{"_", "?", "Positive"}], ",", "0", ",", "0", ",", "0", 
+             ",", "___"}]},
+          "Ket"]}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"__", " ", 
+         TemplateBox[{RowBox[{"0", ",", 
+             RowBox[{"_", "?", "Positive"}], ",", "0", ",", "0", ",", "___"}]},
+          "Ket"]}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"__", " ", 
+         TemplateBox[{RowBox[{"0", ",", "0", ",", 
+             RowBox[{"_", "?", "Positive"}], ",", "0", ",", "___"}]},
+          "Ket"]}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"__", " ", 
+         TemplateBox[{RowBox[{"0", ",", "0", ",", "0", ",", 
+             RowBox[{"_", "?", "Positive"}], ",", "___"}]},
+          "Ket"]}], "}"}]}], "}"}]}
+   },
+   AutoDelete->False,
+   GridBoxAlignment->{"Columns" -> {Right, Left}, "Rows" -> {{Center}}},
+   GridBoxBackground->{"Columns" -> {
+       GrayLevel[0.85]}, "Rows" -> {{None}}},
+   GridBoxFrame->{"Columns" -> {{True}}, "Rows" -> {{True}}},
+   GridBoxItemSize->{"Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
+  "Grid"]], "Output",
+ CellChangeTimes->{
+  3.7517233723364115`*^9, 3.7517236456565495`*^9, 3.7517236997469397`*^9, 
+   3.7517261342142897`*^9, 3.7517775419552937`*^9, 3.751872247160909*^9, {
+   3.751872448166603*^9, 3.751872501278822*^9}, {3.751873143095398*^9, 
+   3.7518731469050875`*^9}, 3.7518732352760572`*^9, 3.751873770490176*^9, 
+   3.7518738281257205`*^9, 3.7518740756942244`*^9, 3.751874118885538*^9, 
+   3.7518741497620153`*^9, 3.7518741935421505`*^9, 3.751879908675168*^9, 
+   3.7518801977367144`*^9, 3.751882248174869*^9, 3.751882300435071*^9, {
+   3.751882334938818*^9, 3.751882358384056*^9}, 3.751882486981225*^9, 
+   3.7518826126081696`*^9, 3.7518826783523016`*^9, 3.751882822851761*^9, {
+   3.7518832877344627`*^9, 3.7518833177152658`*^9}, 3.751883471862913*^9, 
+   3.7518836561449547`*^9, 3.7518837204321327`*^9, {3.7518838198330216`*^9, 
+   3.7518838765283604`*^9}, {3.7518874172478094`*^9, 3.751887420961835*^9}, 
+   3.751888525418863*^9, 3.7519668553459787`*^9, 3.751966941544397*^9, 
+   3.7519670961667786`*^9, 3.751967716363057*^9, 3.751967994050992*^9, 
+   3.7519681446542406`*^9, 3.7519731781987057`*^9, {3.751977134653654*^9, 
+   3.751977167667615*^9}, 3.7519772330163984`*^9, {3.7522164709139814`*^9, 
+   3.7522164790861216`*^9}, {3.752217712744836*^9, 3.7522177266167293`*^9}, 
+   3.7522190656500015`*^9, 3.752234254547095*^9, 3.752234601185571*^9, 
+   3.7522473284196234`*^9, 3.752247405733807*^9, 3.752247443181633*^9, {
+   3.752305626273094*^9, 3.752305631717547*^9}, 3.753164357608889*^9, 
+   3.7531852540886884`*^9, 3.7531857877578793`*^9, 3.75318831267921*^9, 
+   3.7531883686207623`*^9, 3.7531909744249024`*^9, 3.7531941839128675`*^9, 
+   3.7534251272306156`*^9, 3.7541448649882154`*^9, 3.7541449133791776`*^9, 
+   3.7542132782839627`*^9, 3.754219562397986*^9, 3.7542198658201995`*^9, {
+   3.756038471509157*^9, 3.7560385000877295`*^9}, 3.7560442295736837`*^9, 
+   3.7560449648473163`*^9, {3.756046604599799*^9, 3.756046633923418*^9}, 
+   3.756117268374674*^9, 3.756191255755337*^9, 3.7561916169276376`*^9, 
+   3.7561923335026608`*^9, 3.756192964561536*^9, 3.7561931378222723`*^9, 
+   3.756193318906089*^9, 3.7561937653784833`*^9, 3.7561938072315793`*^9, 
+   3.756194375410653*^9, 3.756198203670664*^9, 3.7561982539821405`*^9, 
+   3.7561983423917503`*^9, {3.756198397146393*^9, 3.7561984462301073`*^9}, 
+   3.756198561177762*^9, 3.7561985931712165`*^9, 3.756198657574018*^9, 
+   3.7561988172800045`*^9, 3.7561988743892975`*^9, 3.7561990008810825`*^9, 
+   3.7609643102810087`*^9, 3.760964513698064*^9, {3.7609647918003473`*^9, 
+   3.7609648223404474`*^9}, 3.7609665438791666`*^9, 3.7609718273477964`*^9, 
+   3.7609718659627867`*^9, 3.7609734860426865`*^9, 3.7609735200664806`*^9, 
+   3.7609736197312417`*^9, 3.761025580031207*^9, 3.7610281664083395`*^9, 
+   3.7610297276214123`*^9, 3.7610299543903255`*^9, 3.761031241793054*^9, 
+   3.7610319823670936`*^9, 3.761037966015813*^9, 3.761038760807907*^9, 
+   3.761039829030218*^9},
+ CellLabel->"Out[31]=",ExpressionUUID->"efe91622-cb9c-440f-945a-fd056e4c2ba8"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+},
+WindowSize->{1707, 877},
+WindowMargins->{{-8, Automatic}, {Automatic, -8}},
+FrontEndVersion->"11.3 for Microsoft Windows (64-bit) (March 6, 2018)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[580, 22, 187, 4, 67, "Chapter",ExpressionUUID->"2e760c4b-c789-490f-9a05-ba62998307b4",
+ InitializationCell->True],
+Cell[CellGroupData[{
+Cell[792, 30, 280, 5, 44, "Input",ExpressionUUID->"91164277-e9e5-4403-aa52-e8f7b731ce28",
+ InitializationCell->True],
+Cell[1075, 37, 512, 8, 32, "Output",ExpressionUUID->"fdd04d1c-ead2-4b8e-9f59-e3d71ae5eaed"]
+}, Open  ]],
+Cell[1602, 48, 423, 10, 64, "Input",ExpressionUUID->"6435268a-2180-4865-a6aa-cdaed00f5998",
+ InitializationCell->True]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[2062, 63, 155, 3, 67, "Chapter",ExpressionUUID->"03abc2fa-9da0-4bbb-b27d-940ed2330a2b"],
+Cell[CellGroupData[{
+Cell[2242, 70, 192, 4, 64, "Subchapter",ExpressionUUID->"c584def1-ff83-4fdc-ae2e-b3ebfcd29b2f",
+ InitializationCell->True],
+Cell[CellGroupData[{
+Cell[2459, 78, 162, 3, 53, "Subsection",ExpressionUUID->"1c9f4bee-8620-4065-ad1e-6d32928fdf82"],
+Cell[2624, 83, 1128, 28, 83, "Input",ExpressionUUID->"40c47483-c7de-4aba-a833-959f00de3429",
+ InitializationCell->True],
+Cell[3755, 113, 696, 14, 64, "Input",ExpressionUUID->"306c95fd-770d-4e54-969c-b78975468466",
+ InitializationCell->True],
+Cell[4454, 129, 4618, 103, 701, "Input",ExpressionUUID->"644e821a-6404-4931-8707-79e2a4cc6d29",
+ InitializationCell->True]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[9109, 237, 160, 3, 53, "Subsection",ExpressionUUID->"68c74f17-b189-4ef3-9e44-2e66a941177c"],
+Cell[9272, 242, 5054, 112, 797, "Input",ExpressionUUID->"263ab28d-7c65-44e1-b92c-787a677b86d7",
+ CellGroupingRules->{"GroupTogetherGrouping", 10000.},
+ InitializationCell->True,
+ InitializationGroup->True]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[14363, 359, 158, 3, 53, "Subsection",ExpressionUUID->"93552476-5cb5-4467-bf5f-fc1c76e484a2"],
+Cell[14524, 364, 6430, 151, 978, "Input",ExpressionUUID->"ea5ee553-a5ec-42c3-a2a4-5a97ff1b27e3",
+ InitializationCell->True],
+Cell[20957, 517, 773, 17, 101, "Input",ExpressionUUID->"2de66ade-c08b-4605-8830-9f268b41a63f",
+ InitializationCell->True]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[21767, 539, 157, 3, 53, "Subsection",ExpressionUUID->"48e49d04-e926-4f4d-a65d-c045a45776f3"],
+Cell[21927, 544, 1667, 46, 171, "Input",ExpressionUUID->"8089cbee-ec61-42b5-b8c1-4f7f4f90fa61"],
+Cell[CellGroupData[{
+Cell[23619, 594, 285, 4, 28, "Input",ExpressionUUID->"7abb94e2-a3de-41b6-a74a-a7662ba34e33"],
+Cell[23907, 600, 18777, 409, 264, "Output",ExpressionUUID->"79b4f6f6-c8cc-4e1d-aa52-11211abe9c67"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[42721, 1014, 465, 9, 28, "Input",ExpressionUUID->"f90d3e48-3719-4b25-944d-1168b7665ce4"],
+Cell[43189, 1025, 18743, 409, 264, "Output",ExpressionUUID->"ddf52596-8b8c-4c54-96b3-1acbd2990f86"]
+}, Open  ]]
+}, Open  ]]
+}, Closed]],
+Cell[CellGroupData[{
+Cell[61993, 1441, 211, 4, 48, "Subchapter",ExpressionUUID->"7c0e0d56-13bd-43bb-8fd1-0559c4e97e25"],
+Cell[62207, 1447, 221, 3, 28, "Input",ExpressionUUID->"f45717f3-0c48-4793-bc29-b6b2bd44dc41"],
+Cell[62431, 1452, 2078, 42, 159, "Input",ExpressionUUID->"489ff8f6-5570-468d-8e42-fb99e91e2bd3",
+ InitializationCell->True],
+Cell[64512, 1496, 11188, 243, 900, "Input",ExpressionUUID->"03ca2f45-934c-4e89-ad00-3ca9407b4bbf",
+ InitializationCell->True]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[75749, 1745, 205, 4, 67, "Chapter",ExpressionUUID->"d9309cb6-e898-47a8-8765-7fda539db2b2"],
+Cell[CellGroupData[{
+Cell[75979, 1753, 161, 3, 64, "Subchapter",ExpressionUUID->"a46abdb1-0fa7-4f76-bb62-82e25b1ec07f"],
+Cell[CellGroupData[{
+Cell[76165, 1760, 251, 4, 28, "Input",ExpressionUUID->"696b25c2-05ce-4d05-9f64-92260ebad2b6"],
+Cell[76419, 1766, 480, 7, 32, "Output",ExpressionUUID->"30b4ebb9-1cb7-4983-ab55-023c05b19d00"]
+}, Open  ]],
+Cell[76914, 1776, 341, 9, 28, "Input",ExpressionUUID->"1e2be5bf-26c1-41c7-9ef7-e47c3c30d123"],
+Cell[CellGroupData[{
+Cell[77280, 1789, 544, 12, 60, "Input",ExpressionUUID->"97ec213c-1446-4503-94ef-f1719c299899"],
+Cell[77827, 1803, 1004, 13, 32, "Output",ExpressionUUID->"d681778b-49fb-45cd-a6ec-b65a27d11554"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[78868, 1821, 314, 6, 48, "Input",ExpressionUUID->"02926ba4-8bb6-4a0b-bf9d-5a7d5c3dd53b"],
+Cell[79185, 1829, 1051, 15, 32, "Output",ExpressionUUID->"38c06730-04da-42c8-8377-fec64eee3cbf"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[80285, 1850, 158, 3, 64, "Subchapter",ExpressionUUID->"ef8872e3-88aa-49d9-b073-88e81634ddb3"],
+Cell[80446, 1855, 741, 19, 60, "Input",ExpressionUUID->"38b3370a-ffb0-4ef7-a3d8-ff8685692852"],
+Cell[CellGroupData[{
+Cell[81212, 1878, 1414, 22, 28, "Input",ExpressionUUID->"b4e6be3e-6fd0-4c43-ba1e-c2dc7edf59cf"],
+Cell[82629, 1902, 55209, 1249, 1087, "Output",ExpressionUUID->"efe91622-cb9c-440f-945a-fd056e4c2ba8"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+
