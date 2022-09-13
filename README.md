@@ -3,10 +3,7 @@ Automated generation of optical-element sequences based on the proposal in [Phys
 
 The goal is to generate a quantum pure state whose form conforms to given constraints, where SPDC (spontaneous parametric down-conversion) sources are used to generate a physical system (biphotons) and given optical elements are used to manipulate the system. The result is a sequence of actions that transform the system from its initial state to the desired state.
 
-**analyzeSetups.nb** - user interface
-
-**mvrp.wl** - processing routines, especially `runSearch` that searches for a sequence of elements generating the desired state
-
-**mvrp_visualization.wl** - visualization tools, especially `visualizeSetup` and `analyzeSetup`
-
-**test_file.txt** - test file that stores one result of an (unsuccessful) search
+* **analyzeSetups.nb** - user interface
+* **mvrp.wl** - processing routines, especially `runSearch` that searches for a sequence of elements generating the desired state
+* **mvrp_visualization.wl** - visualization tools, especially `visualizeSetup` and `analyzeSetup`
+* **test_file.txt** - test file that stores one result of an (unsuccessful) search
