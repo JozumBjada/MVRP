@@ -4,7 +4,7 @@
 (*Routines*)
 
 
-(* ::Subsubsection:: *)
+(* ::Subsubsection::Closed:: *)
 (*$numberOfPaths property*)
 
 
@@ -31,17 +31,14 @@ $numberOfPaths/:Set[$numberOfPaths,rhs_]:=Module[{},
 (*fock states to operators*)
 
 
-(* ::Code::Initialization:: *)
 ClearAll[ketToOper]
 
 
-(* ::Code::Initialization:: *)
 ketToOper::usage="Transform state in Ket representation into creation-operator representation.";
 ketToOper::folen="Number of modes in Ket vector is not equal to number of paths as given in $numberOfPaths.";
 ketToOper::notfock="Input expression contains operator(s).";
 
 
-(* ::Code::Initialization:: *)
 ketToOper[expr_,listOfOpers_:$listOfOpers]:=Module[{aux,rule,error=False},
 If[!FreeQ[expr,_ad],Message[ketToOper::notfock];Return[expr]];
 rule=Ket[seq__]:>Times@@(1/Sqrt[{seq}!])Times@@(listOfOpers^{seq});
@@ -55,16 +52,13 @@ aux
 (*operators to fock states*)
 
 
-(* ::Code::Initialization:: *)
 ClearAll[operToKet]
 
 
-(* ::Code::Initialization:: *)
 operToKet::usage="Transform state in operator representation into Ket representation.";
 operToKet::notoper="Input expression contains Ket(s).";
 
 
-(* ::Code::Initialization:: *)
 operToKet[expr_,listOfOpers_:$listOfOpers]:=Module[{rules},
 If[!FreeQ[expr,_Ket],Message[operToKet::notoper];Return[expr]];
 rules=CoefficientRules[expr,listOfOpers];
@@ -72,7 +66,6 @@ Total[rules/.Rule[spec_,coef_]:>coef Times@@Sqrt[spec!] Ket@@spec]
 ]
 
 
-(* ::Code::Initialization:: *)
 (*ketToOper@Ket[m,n]*)
 
 
@@ -80,20 +73,17 @@ Total[rules/.Rule[spec_,coef_]:>coef Times@@Sqrt[spec!] Ket@@spec]
 (*SPDC operators*)
 
 
-(* ::Code::Initialization:: *)
 normalizeState[expr_]:=Module[{norm},
 norm=Norm@Cases[Collect[expr,_Ket],coef_ _Ket:>coef];
 1/norm expr
 ]
 
 
-(* ::Code::Initialization:: *)
 dropHigherOrders[expr_,order_,couplconst_]:=Module[{gr},
 Normal@Series[Refine[expr/.x:constPattern[couplconst]:>gr x,gr\[Element]Reals],{gr,0,order}]/.gr->1
 ]
 
 
-(* ::Code::Initialization:: *)
 spdcNonCollKet[expr_?(Not@*NumericQ),order_Integer,path1_,path2_,g_,normalize:True|False:False]:=Module[{prefactors,steps,rule,state},
 rule=Ket[seq__]:>(g Sqrt[{seq}[[path1]]+1] Sqrt[{seq}[[path2]]+1]MapAt[#+1&,Ket[seq],{{path1},{path2}}]-g\[Conjugate] Sqrt[{seq}[[path1]]] Sqrt[{seq}[[path2]]]MapAt[#-1&,Ket[seq],{{path1},{path2}}]);
 
@@ -114,7 +104,6 @@ spdcNonCollOperOper[order_Integer,path1_,path2_,g_,normalize:True|False:False]:=
 spdcNonColl=spdcNonCollOperOper
 
 
-(* ::Code::Initialization:: *)
 spdcCollKet[expr_?(Not@*NumericQ),order_Integer,path_,g_,normalize:True|False:False]:=Module[{prefactors,steps,rule,state},
 rule=Ket[seq__]:>(g Sqrt[{seq}[[path]]+1] Sqrt[{seq}[[path]]+2]MapAt[#+2&,Ket[seq],path]-g\[Conjugate] Sqrt[{seq}[[path]]] Sqrt[{seq}[[path]]-1]MapAt[#-2&,Ket[seq],path]);
 
@@ -139,7 +128,6 @@ spdcColl=spdcCollOperOper
 (*beamsplitter*)
 
 
-(* ::Code::Initialization:: *)
 beamFun[ket_,path1_,path2_,reflang_]:=Module[{k1,k2,pre,inter,post,binomProd,pathMin,pathMax,
 refl=Cos[reflang],transm=Sin[reflang]},
 If[refl==0,Return[ket]];
@@ -152,7 +140,6 @@ binomProd[n1_,n2_]:=Binomial[k1,n1]Binomial[k2,n2]Binomial[k1-n1+n2,n2]Binomial[
 ]
 
 
-(* ::Code::Initialization:: *)
 ClearAll[beamsplitterKet]
 beamsplitterKet[expr_,path1_,path2_,reflang_]:=Module[{ee},
 (*for reflang=\[Pi]/4 one gets 50:50 BS*)
@@ -163,7 +150,6 @@ ee
 beamsplitterKet[path1_,path2_,reflang_: \[Pi]/4]:=beamsplitterKet[#,path1,path2,reflang]&
 
 
-(* ::Code::Initialization:: *)
 (*ClearAll[beamsplitterOper]
 beamsplitterRules[path1_,path2_]:={ad[path1]\[RuleDelayed]1/Sqrt[2](ad[path1]+I ad[path2]),ad[path2]\[RuleDelayed]1/Sqrt[2](ad[path2]+I ad[path1])}
 beamsplitterOper[expr_,path1_,path2_]:=operToKet[ketToOper[expr]/.beamsplitterRules[path1,path2]]
@@ -175,13 +161,11 @@ beamsplitterRules[path1_,path2_,reflang_]:=
 ad[path2]:>(Sin[reflang]ad[path2]+I Cos[reflang]ad[path1])}
 
 
-(* ::Code::Initialization:: *)
 ClearAll[beamsplitterOper]
 beamsplitterOper[expr_,path1_,path2_,reflang_]:=operToKet[ketToOper[expr]/.beamsplitterRules[path1,path2,reflang]]
 beamsplitterOper[path1_,path2_,reflang_:\[Pi]/4]:=beamsplitterOper[#,path1,path2,reflang]&
 
 
-(* ::Code::Initialization:: *)
 ClearAll[beamsplitterOperOper]
 beamsplitterOperOper[expr_,path1_,path2_,reflang_]:=expr/.beamsplitterRules[path1,path2,reflang]
 beamsplitterOperOper[path1_,path2_,reflang_:\[Pi]/4]:=beamsplitterOperOper[#,path1,path2,reflang]&
@@ -194,13 +178,11 @@ beamsplitter=beamsplitterOperOper
 (*phaseshift*)
 
 
-(* ::Code::Initialization:: *)
 ClearAll[phaseshiftKet]
 phaseshiftKet[expr_,path_,phase_]:=expr/.seq_Ket:>Exp[I phase seq[[path]]]seq
 phaseshiftKet[path_,phase_]:=phaseshiftKet[#,path,phase]&
 
 
-(* ::Code::Initialization:: *)
 ClearAll[phaseshiftOperOper]
 phaseshiftOperOper[expr_,path_,phase_]:=expr/.ad[path]:>Exp[I phase]ad[path]
 phaseshiftOperOper[path_,phase_]:=phaseshiftOperOper[#,path,phase]&
@@ -210,7 +192,7 @@ phaseshift=phaseshiftOperOper
 
 
 (* ::Subsubsection::Closed:: *)
-(*Actions*)
+(*actions*)
 
 
 generateActions[numOfPaths_:numOfPaths,couplconst_:couplconst,beamsplitter_:beamsplitter,phaseshift_:phaseshift,spdcColl_:spdcColl,spdcNonColl_:spdcNonColl]:=
@@ -242,11 +224,9 @@ generateActions[numOfPaths_:numOfPaths,couplconst_:couplconst,beamsplitter_:beam
 (*measurement*)
 
 
-(* ::Code::Initialization:: *)
 projectOntoStates[expr_,states_List]:=expr/.Except[Alternatives@@states,_Ket]->0
 
 
-(* ::Code::Initialization:: *)
 coincidenceDetection::nokets="No kets found.";
 coincidenceDetection::short="Coincidence wanted in nonexisting path.";
 coincidenceDetection[expr_,pos_List,reduce:(True|False):False]:= Module[{patt,ket,output,compl},
@@ -266,7 +246,7 @@ coincidenceDetection[expr_,pos_List,reduce:(True|False):False]:= Module[{patt,ke
 ]
 
 
-(* ::Subsubsection:: *)
+(* ::Subsubsection::Closed:: *)
 (*miscellaneous*)
 
 
@@ -282,7 +262,6 @@ Reverse@listOfActions
 ]
 
 
-(* ::Code::Initialization:: *)
 constPattern::usage="For symbols in 'consts' return Alternatives[symbols..., their conjugates...]. This routine is meant to be used primarily in other routines.";
 constPattern[consts_]:=Module[{aux},
 aux=Switch[Head[consts],
@@ -295,16 +274,13 @@ Alternatives@@aux
 ]
 
 
-(* ::Code::Initialization:: *)
 getCoeffs[expr_]:=Module[{h},List@@@List@@Collect[expr,$pattern,h]/.h->Identity]
 
 
-(* ::Code::Initialization:: *)
 getGCoeff::usage="If 'expr' can be seen as a polynomial in 'couplconst' or its complex conjugate, return the 'order'-th order term from 'expr'.";
 getGCoeff[expr_,couplconst_,order_]:=Module[{gr},Coefficient[expr/. x:constPattern[couplconst]:>gr x/.gr\[Conjugate]->gr,gr,order]]
 
 
-(* ::Code::Initialization:: *)
 newFileName[num_,head_:"setup_",extension_:"txt"]:=StringJoin[head,ToString[num],".",extension]
 newFileName["Timestamp",head_:"setup_",extension_:"txt"]:=StringJoin[head,DateString[Now,{"DayNameShort","_","Day","_","MonthShort","_","Year","_","Hour","h","Minute","m","Second","s"}],".",extension]
 
@@ -352,16 +328,14 @@ aux/.None->Nothing
 
 
 (* ::Subsubsection::Closed:: *)
-(*Highlight parts*)
+(*highlight parts*)
 
 
-(* ::Code::Initialization:: *)
 highlightTerms[expr_]:=TraditionalForm[Collect[expr,$pattern,Framed@*Factor@*Simplify]/.x:$pattern:>Highlighted[x]]
 highlightTerms[expr_,"Column"]:=TraditionalForm[List@@(Collect[expr,$pattern,Framed@*Simplify]/.x:$pattern:>Highlighted[x])//Column]
 highlightTerms[expr_,"Grid"]:=TraditionalForm[List@@@List@@(Collect[expr,$pattern,Framed@*Simplify]/.x:$pattern:>Highlighted[x])//Grid]
 
 
-(* ::Code::Initialization:: *)
 highlightConsts[expr_,consts_]:=Module[{conspatt=constPattern[consts]},TraditionalForm[ExpandAll[Collect[expr,conspatt,Framed@*Simplify]/.x:conspatt:>Highlighted[x],conspatt]]]
 highlightConsts[expr_,consts_,"Column"]:=Module[{conspatt=constPattern[consts]},TraditionalForm[List@@(Collect[expr,conspatt,Framed@*Simplify]/.x:conspatt:>Highlighted[x])//Column]]
 highlightConsts[expr_,consts_,"Grid"]:=Module[{conspatt=constPattern[consts]},TraditionalForm[List@@@List@@ExpandAll[Collect[expr,conspatt,Framed@*Simplify]/.x:conspatt:>Highlighted[x],conspatt]//Grid]]
@@ -376,11 +350,9 @@ highlightConsts[expr_,consts_,"Terms"]:=Module[{conspatt=constPattern[consts]},T
 (*Input parameters*)
 
 
-(* ::Code::Initialization:: *)
 numOfIterations=1;
 
 
-(* ::Code::Initialization:: *)
 (*initState=\[Beta] ad[1]+\[Alpha] ad[1] ad[2];*)
 (*refParts={{\[Alpha] ad[3]Except[_. ad[4],_],_ \[Beta] ad[3]ad[4]}};*)
 initState=\[Alpha] ad[2]ad[3]+\[Beta] ad[2] ad[4];
@@ -396,29 +368,25 @@ unwantedPatternsFirst={{__ Ket[seq__,_,_]/;Plus[seq]!=2}};
 (*relevantTerms[\[Alpha] 2 ad[3]ad[4]+2 \[Beta] ad[3]ad[4],refParts]*)
 
 
-(* ::Code::Initialization:: *)
 numOfActions=15;
 subdir="setups_"<>DateString[Today,{"DayNameShort","_","Day","_","MonthShort","_","Year"}];
 Protect[g];
 couplconst=g;
 
 
-(* ::Code::Initialization:: *)
-(*dir=DirectoryName[](*NotebookDirectory[]*);*)
-dir=DirectoryName@If[$InputFileName=="",NotebookDirectory[],$InputFileName]
-SetDirectory[dir];
-dir=FileNameJoin[{dir,subdir}];
-
-
-(* ::Code::Initialization:: *)
-If[FileExistsQ[dir],SetDirectory[dir],CreateDirectory[dir];SetDirectory[dir]];
-
-
-(* ::Code::Initialization:: *)
 (*BEWARE: $numberOfPaths WORKS LIKE PYTHON-TYPE PROPERTY. SPECIFICALLY, BY SETTING $numberOfPaths,
 ALSO $listOfOpers, numOfPaths, actions AND probabilities ARE AUTOMATICALLY RECALCULATED!!!*)
 $numberOfPaths=6;
 $pattern=_ad;
+
+
+setDir[]:=Module[{dir,dir2,subdir=subdir},
+dir=DirectoryName@If[$InputFileName=="",NotebookDirectory[],$InputFileName];
+SetDirectory[dir];
+dir2=FileNameJoin[{dir,subdir}];
+If[!FileExistsQ[dir2],CreateDirectory[dir2]];
+SetDirectory[dir2]
+]
 
 
 (* ::Subsubsection:: *)
